@@ -1,0 +1,30 @@
+﻿
+@page "/setup/portal"
+@inherits Panel
+@attribute [StyleSheet]
+@namespace Mbk.RoleplayAPI.Setup.Pages
+
+<root>
+    <div class="body">
+        <text class="title">
+            Roleplay
+        </text>
+
+        <div class="infobox">
+            <text>
+                This is probably the first time you launch the game mode so you have to complete the setup first.
+            </text>
+        </div>
+        <a class="startbutton" href="/setup/token">START</a>
+    </div>
+
+    
+</root>
+
+@code {
+
+    protected override void OnAfterTreeRender(bool firstTime)
+    {
+        base.OnAfterTreeRender(firstTime);
+    }
+}

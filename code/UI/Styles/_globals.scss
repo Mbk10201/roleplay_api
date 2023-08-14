@@ -1,0 +1,19 @@
+@import "_form.scss";
+
+.container {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.hidden {
+    display: none;
+}
+
+.grow {
+    flex-grow: 1;
+}
+
+i {
+    font-family: MaterialIcons;
+}

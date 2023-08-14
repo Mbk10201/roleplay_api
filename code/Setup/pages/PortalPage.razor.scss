@@ -1,0 +1,96 @@
+﻿PortalPage {
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+
+    .body {
+        height: 100%;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        .title {
+            font-size: 100px;
+            font-family: Poppins;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 25px;
+            text-shadow: 0px 10px 15px white;
+        }
+
+        .infobox {
+            margin-top: 100px;
+            border-radius: 25px;
+            border-right: 1px solid #3273EB;
+            border-left: 1px solid #3273EB;
+            background-color: rgba(64, 64, 64, 0.50);
+            box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+            padding: 25px;
+            align-items: center;
+            justify-content: center;
+
+
+            text {
+                color: rgba(255, 255, 255, 0.50);
+                text-align: center;
+                font-family: Poppins;
+                font-size: 15px;
+                font-style: normal;
+                font-weight: 700;
+                letter-spacing: 0.3px;
+            }
+        }
+
+        .startbutton {
+            margin-top: 100px;
+            padding: 25px 250px;
+            border-radius: 25px;
+            background-color: rgba(64, 64, 64, 0.50);
+            backdrop-filter: blur(12.5px);
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #FFF;
+            text-align: center;
+            font-family: Poppins;
+            font-size: 30px;
+            font-style: normal;
+            font-weight: 700;
+            letter-spacing: 0.6px;
+            transition: all 0.2s ease-in;
+            text-transform: uppercase;
+
+            &.deprecated {
+                background-color: #EB3D32;
+                cursor: not-allowed;
+                pointer-events: none;
+            }
+
+            &:hover:not(.deprecated) {
+                background-color: #3273EB;
+            }
+        }
+    }
+
+    .terry {
+        position: absolute;
+        right: 50px;
+        bottom: 0;
+
+        svg {
+            padding: 512px;
+        }
+    }
+
+    .sbox {
+        position: absolute;
+        right: 50px;
+        top: 50px;
+
+        svg {
+            padding: 32px;
+        }
+    }
+}

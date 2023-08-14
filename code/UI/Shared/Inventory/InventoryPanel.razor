@@ -1,0 +1,68 @@
+﻿@using Mbk.RoleplayAPI.Player;
+
+@inherits RoleplayPanel
+@attribute [StyleSheet]
+@namespace Mbk.RoleplayAPI.UI.Shared.Inventory
+
+@if ( !Player.Backpack.IsValid() )
+    return;
+
+<root>
+    <div class="left">
+        <span class="title">Inventory</span>
+
+        <div class="container">
+            @for (ushort i = 0; i < Player.Backpack.SlotLimit; i++)
+            {
+                <InventorySlot OnSelected=@OnBackpackSlotSelected Container=@Player.Backpack Slot=@i></InventorySlot>
+            }
+        </div>
+    </div>
+    <CitizenPanel></CitizenPanel>
+</root>
+
+@code {
+    RoleplayPlayer Player => Game.LocalClient.Pawn as RoleplayPlayer;
+    bool IsOpen = false;
+
+    public InventorySlot Selected { get; private set; }
+
+    public InventoryPanel()
+    {
+
+    }
+
+    protected virtual void OnBackpackSlotSelected( InventorySlot slot )
+    {
+        Select(slot);
+    }
+
+    protected void Select( InventorySlot slot )
+    {
+        if ( Selected != null )
+        {
+            Selected.IsSelected = false;
+        }
+
+        Sound.FromScreen( "inventory.select" );
+
+        slot.IsSelected = true;
+        Selected = slot;
+    }
+
+    [GameEvent.Client.BuildInput]
+    public void BuildInput()
+    {
+        if(Input.Pressed("Inventory"))
+        {
+            IsOpen = !IsOpen;     
+            HideOthers = IsOpen;
+            SetClass("open", IsOpen);
+        }
+    }
+
+    protected override int BuildHash()
+    {
+        return HashCode.Combine(Selected);
+    }
+}

@@ -1,0 +1,95 @@
+﻿@using Mbk.RoleplayAPI.Player;
+
+@attribute [StyleSheet]
+@inherits RoleplayPanel
+@namespace Mbk.RoleplayAPI.UI.Shared
+
+@{
+    if (!player.IsValid()) return;
+}
+
+<root>
+    <img class="image" @ref="Image" />
+    <div @ref="MarkerContainer" class="markers">
+        <div @ref="SelfPlayer" class="self"></div>
+    </div
+</root>
+
+@code
+{
+    RoleplayPlayer player => Game.LocalClient.Pawn as RoleplayPlayer;
+    private Dictionary<MapMarker, Panel> Markers { get; set; } = new();
+    private Panel MarkerContainer { get; set; }
+    private Panel SelfPlayer { get; set; }
+    private Image Image { get; set; }
+
+    public override void Tick()
+    {
+        if (player is null)
+            return;
+
+        Render( player.Position, player.Rotation );
+        Image.Texture = GetOrCreateTexture();
+
+        var rotation = player.Rotation.Yaw();
+
+        var tx = new PanelTransform();
+        tx.AddRotation( 0f, 0f, rotation + 90f );
+
+        //Image.Style.Transform = tx;
+
+        foreach ( var marker in player.Markers )
+        {
+            if ( !Markers.TryGetValue( marker, out var panel ) || !panel.IsValid )
+            {
+                panel = MarkerContainer.AddChild<Panel>( "marker pin" );
+                panel.Style.BackgroundTint = marker.Color;
+                Markers[marker] = panel;
+            }
+
+            var markerPosition = marker.Position.WithZ( 0f );
+            var position = player.Position.WithZ( 0f );
+            var direction = (markerPosition - position).Normal;
+            var angle = -Angles.NormalizeAngle( Vector3.VectorAngle( direction ).yaw - 45f );
+            var box = MarkerContainer.Box.Rect;
+
+            var x = MathF.Sin( angle.DegreeToRadian() ) * box.Width;
+            var y = MathF.Cos( angle.DegreeToRadian() ) * -box.Height;
+
+            x += box.Width * 0.5f;
+            y += box.Height * 0.5f;
+
+            var panelSize = panel.Box.Rect;
+            var pw = panelSize.Width + 16f;
+            var ph = panelSize.Height + 16f;
+
+            x = x.Clamp( pw * 0.5f, box.Width - (pw * 0.5f) );
+            y = y.Clamp( ph * 0.5f, box.Height - (ph * 0.5f) );
+
+            panel.Style.Left = Length.Pixels( x * ScaleFromScreen );
+            panel.Style.Top = Length.Pixels( y * ScaleFromScreen );
+
+            var distance = position.Distance( markerPosition );
+
+            panel.Style.Opacity = distance.Remap( 500f, 1000f, 0f, 1f ).Clamp( 0f, 1f );
+        }
+
+        foreach ( var key in Markers.Keys.ToArray() )
+        {
+            if ( !player.Markers.Contains( key ) )
+            {
+                Markers[key].Delete( true );
+                Markers.Remove( key );
+
+            }
+        }
+
+        base.Tick();
+    }
+
+    protected override int BuildHash()
+    {
+        if ( !player.IsValid() ) return 0;
+        return HashCode.Combine( player );
+    }
+}

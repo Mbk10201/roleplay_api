@@ -1,0 +1,94 @@
+﻿InventoryPanel {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    background-color: rgba(40, 40, 40, 0.4);
+    transition: all 0.5s ease-out;
+    transform: scale( 1 );
+    backdrop-filter: blur(5px);
+    color: white;
+    font-family: Poppins;
+
+    &:intro {
+        transform: scale( 0 );
+    }
+
+    &:outro {
+        transform: scale( 2 );
+    }
+
+    .left {
+        height: 100%;
+        width: 50%;
+        padding: 30px;
+        //background-color:red;
+        align-items: center;
+        flex-direction: column;
+
+        .title {
+            text-transform: uppercase;
+            font-size: 50px;
+            font-weight: 600;
+            text-shadow: 0px 0px 25px #39ffa0;
+        }
+
+        .container {
+            height: 100%;
+            width: 100%;
+            //background-color: rgba(45, 45, 45, 0.5);
+            border-radius: 25px;
+            padding: 10px;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+
+            .case {
+                height: 150px;
+                width: 150px;
+                //background-color: rgba(45, 45, 45, 0.5);
+                border-radius: 8px;
+                backdrop-filter: blur(25px);
+                cursor: pointer;
+                transition: all 0.7s ease-out;
+                background: linear-gradient(0deg, transparent, rgba(128, 128, 128, 0.1));
+                border: 1px solid rgba(silver, 0.1);
+                flex-direction: column;
+
+                .empty {
+                }
+
+                &:hover:not(.empty, .locked) {
+                    background: linear-gradient(0deg, transparent, rgba(#39ffa0, 0.25));
+                }
+
+                &.locked {
+                    border: 2px solid rgba(140, 0, 15, 0.9);
+                    background-image: url("ui/inventory/disabled_bg01.png");
+                    background-size: contain;
+                    cursor: not-allowed;
+                }
+            }
+
+            .item {
+                height: 150px;
+                width: 150px;
+                border: 2px solid red;
+            }
+        }
+    }
+
+    CitizenPanel {
+        height: 100%;
+        width: 100%;
+        z-index: -1;
+        position: absolute;
+    }
+
+    &.open {
+        opacity: 1;
+        pointer-events: all;
+    }
+}

@@ -1,0 +1,19 @@
+﻿@inherits RootPanel
+@attribute [StyleSheet]
+@namespace Mbk.RoleplayAPI.Setup
+
+<root>
+    <Layout></Layout>
+</root>
+
+@code {
+    internal SetupUI()
+    {
+        Game.RootPanel = this;
+    }
+
+    protected override void OnAfterTreeRender(bool firstTime)
+    {
+        base.OnAfterTreeRender(firstTime);
+    }
+}

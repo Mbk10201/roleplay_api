@@ -1,0 +1,16 @@
+﻿@using Mbk.Admin;
+
+@inherits Panel
+@implements IAdminPlayerCategory
+@attribute [StyleSheet]
+
+<root>
+    <panel class="container">
+        grosse merde
+    </panel>
+</root>
+
+@code {
+    public string CategoryName => "Roleplay";
+    public IClient Player { get; set; }
+}

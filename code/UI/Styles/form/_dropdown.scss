@@ -1,0 +1,24 @@
+﻿Dropdown {
+	padding: 20px 150px;
+	border: 1px solid $main-color;
+	align-items: center;
+	cursor: pointer;
+	transition: all .1s ease-out;
+
+	> .dropdown_indicator {
+		font-family: MaterialIcons;
+		position: absolute;
+		right: 5px;
+	}
+
+
+	&.open {
+		border-bottom-left-radius: 1px;
+		border-bottom-right-radius: 1px;
+		transition: border-radius 0.2s ease-out;
+
+		.dropdown_indicator {
+			transform:rotate(180deg);
+		}
+	}
+}

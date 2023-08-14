@@ -1,0 +1,82 @@
+﻿@using Mbk.RoleplayAPI.Database;
+@using Mbk.RoleplayAPI.Models.ApiRef;
+
+@page "/setup/token"
+@inherits Panel
+@attribute [StyleSheet]
+@namespace Mbk.RoleplayAPI.Setup.Pages
+
+<root>
+    <div class="body">
+        <text class="title">
+            Roleplay
+        </text>
+
+        <div class="infobox">
+            <text>
+                Please fill the token received with the game mode.
+            </text>
+            @if (RequestError.Length > 0)
+            {
+                <span style="color:crimson;">@RequestError</span>
+            }
+        </div>
+        <div class="form">
+            <span class="title">
+                Token
+            </span>
+            <textentry @ref=Entry class="input" placeholder="Enter the token here">
+
+            </textentry>
+            <span class="error">
+                @if (Entry.Value.Length == 0)
+                {
+                    <text>The field is empty</text>
+                }
+                else if(Entry.Value.Length < 32)
+                {
+                    <text>The token length must be of 32 characters</text>
+                }
+            </span>
+        </div>
+        <button class="submit @(!IsValid() ? "error" : "")" onclick=@(()=> Submit())>NEXT</button>
+    </div>
+</root>
+
+@code {
+    TextEntry Entry;
+    string RequestError = "";
+
+    protected override void OnAfterTreeRender(bool firstTime)
+    {
+        base.OnAfterTreeRender(firstTime);
+    }
+
+    void Submit()
+    {
+        if (!IsValid())
+            return;
+
+        RequestError = "";
+
+        //Request.GetFromMarketplace<bool>($"https://api.sbox-marketplace.com/token/verify/{Entry.Value}");
+        var request = Request.GetFromMarketplace<TokenValidationDTO>($"http://localhost:8080/token/verify/dev/{Entry.Value}").Result;
+
+        RequestError = request.reason;
+
+        if (request.enabled)
+        {
+            RoleplayAPI.SetToken(Entry.Value);
+            Layout.Instance.Navigate("/setup/api");
+        }
+
+    }
+
+    new bool IsValid()
+    {
+        if (Entry.Value.Length == 0 || Entry.Value.Length < 32)
+            return false;
+        else
+            return true;
+    }
+}

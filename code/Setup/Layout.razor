@@ -1,0 +1,34 @@
+﻿@inherits NavigatorPanel
+@attribute [StyleSheet]
+@namespace Mbk.RoleplayAPI.Setup
+
+<root>
+    <div class="content" slot="navigator-canvas">
+        <div class="copyright">
+            <span>Roleplay V1</span>
+            <span>Made by MBK for</span>
+            <span class="url">www.sbox-marketplace.com</span>
+        </div>
+    </div>
+
+    <CitizenPanel></CitizenPanel>
+
+    <div class="sbox">
+        <svg src="./assets/images/sbox.svg"/>
+    </div>
+</root>
+
+@code {
+    public static Layout Instance { get; private set; }
+
+    public Layout()
+    {
+        Instance = this;
+        DefaultUrl = "/setup/token";
+    }
+
+    protected override int BuildHash()
+    {
+        return HashCode.Combine(DateTime.Now.ToString());
+    }
+}

@@ -1,0 +1,70 @@
+﻿@inherits Panel
+@attribute [StyleSheet]
+@implements IAlertItem
+
+@namespace Mbk.RoleplayAPI.UI.Shared.AlertSystem
+
+<root class=@GetTheme()>
+    <div class="leftbar @GetTheme()"></div>
+    <div class="rightbar @GetTheme()"></div>
+	<div class="icon">
+        <i>@GetIcon() </i>
+    </div>
+    <div class="content">
+        <label class="title">@Title</label>
+        <label class="message">@Message</label>
+    </div>
+</root>
+
+@code
+{
+    public string Title { get; set; }
+    public string Message { get; set; }
+    public eAlertType Type { get; set; }
+
+	private float EndTime { get; set; }
+
+
+	public override void Tick()
+	{
+		if ( !IsDeleting && Time.Now >= EndTime )
+			Delete();
+	}
+
+	protected override void OnAfterTreeRender(bool firstTime)
+	{
+		if (firstTime)
+		{
+			EndTime = Time.Now + 3f;
+		}
+
+		base.OnAfterTreeRender(firstTime);
+	}
+
+	public string GetTheme()
+	{
+		switch (Type)
+		{
+            case eAlertType.Info: return "info";
+            case eAlertType.Success: return "success";
+            case eAlertType.Error: return "error";
+            case eAlertType.Warning: return "warning";
+            case eAlertType.Custom: return "custom";
+		}
+
+		return "white";
+	}
+
+	public string GetIcon()
+	{
+		switch (Type)
+		{
+            case eAlertType.Info: return "info";
+            case eAlertType.Success: return "check_circle";
+            case eAlertType.Error: return "error";
+            case eAlertType.Warning: return "warning";
+		}
+
+		return "unknown";
+	}
+}

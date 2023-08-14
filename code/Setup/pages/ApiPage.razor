@@ -1,0 +1,67 @@
+﻿@using Mbk.RoleplayAPI.UI.RootPanels;
+
+@page "/setup/api"
+@inherits Panel
+@attribute [StyleSheet]
+@namespace Mbk.RoleplayAPI.Setup.Pages
+
+<root>
+    <div class="body">
+        <text class="title">
+            Roleplay
+        </text>
+
+        <div class="infobox">
+            <text>
+                Please enter the url of the api server.
+            </text>
+        </div>
+        <div class="form">
+            <span class="title">
+                API Url
+            </span>
+            <textentry @ref=Entry class="input" placeholder="Enter the api url here">
+
+            </textentry>
+            <span class="error">
+                @if (Entry.Value.Length == 0)
+                {
+                    <text>The field is empty</text>
+                }
+            </span>
+        </div>
+        <button class="submit @(!IsValid() ? "error" : "")" onclick=@(()=> Submit())>Finish</button>
+    </div>
+</root>
+
+@code {
+    TextEntry Entry;
+
+    protected override void OnAfterTreeRender(bool firstTime)
+    {
+        base.OnAfterTreeRender(firstTime);
+    }
+
+    void Submit()
+    {
+        if (!IsValid())
+            return;
+
+        RoleplayAPI.SetAPI(Entry.Value);
+        RoleplayAPI.SaveConfiguration();
+
+        Game.RootPanel?.Delete();
+        _ = new MainHud();
+        Event.Run( RoleplayAPI.OnAfterRender );
+
+        Log.Info("Submit");
+    }
+
+    new bool IsValid()
+    {
+        if (Entry.Value.Length == 0)
+            return false;
+        else
+            return true;
+    }
+}

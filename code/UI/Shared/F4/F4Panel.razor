@@ -1,0 +1,32 @@
+﻿@inherits RoleplayPanel
+@attribute [StyleSheet]
+@implements IF4Panel
+@namespace Mbk.RoleplayAPI.UI.Shared.F4
+
+
+<root>
+    
+</root>
+
+@code {
+    bool IsOpen { get; set; }
+
+    protected override void OnAfterTreeRender(bool firstTime)
+    {
+        base.OnAfterTreeRender(firstTime);
+
+        if (firstTime)
+        {
+        }
+    }
+
+    public override void Tick()
+    {
+        Log.Info(Input.Down("F4"));
+    }
+
+    protected override int BuildHash()
+    {
+        return HashCode.Combine(DateTime.Now.ToString() + IsOpen);
+    }
+}

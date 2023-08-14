@@ -1,0 +1,29 @@
+﻿
+$primary: red !default;
+$primary-alt: white !default;
+$form-control-height: 24px !default;
+
+Checkbox {
+	height: 30px;
+	width: 30px;
+	cursor: pointer;
+	border: 2px solid $main-color;
+	border-radius: 4px;
+	align-items: center;
+	justify-content: center;
+
+	.CheckMark {
+		transition: all 0.5s ease-in;
+		display: none;
+		opacity: 0;
+		font-size: 25px;
+		font-family: MaterialIcons;
+	}
+
+	&.checked {
+		.CheckMark {
+			display: flex;
+			opacity: 1;
+		}
+	}
+}

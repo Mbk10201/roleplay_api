@@ -1,0 +1,27 @@
+{
+  "ItemName": "Medic kit",
+  "UniqueId": "medkit",
+  "Description": "Allow self heal",
+  "Icon": "",
+  "WorldModel": "models/items/medkit/medkit.vmdl",
+  "MaxStackSize": 2,
+  "Sellable": true,
+  "CanBeTraded": true,
+  "Enabled": true,
+  "Price": 500,
+  "Weight": 5,
+  "Rarity": "Common",
+  "Type": "Object",
+  "RequiredLevel": 1,
+  "Durability": 0,
+  "CooldownTime": 0,
+  "JobsWhitelist": [
+    "hospital",
+    "firefighter"
+  ],
+  "CraftingRequirements": null,
+  "IsUnique": false,
+  "UsageTagsRestrictions": null,
+  "CanUseInPVPZone": true,
+  "Tags": []
+}

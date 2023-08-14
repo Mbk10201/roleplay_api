@@ -1,0 +1,122 @@
+﻿ApiPage {
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+
+    .body {
+        height: 100%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        .title {
+            font-size: 100px;
+            font-family: Poppins;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 25px;
+            text-shadow: 0px 10px 15px white;
+        }
+
+        .infobox {
+            /*border-radius: 25px;
+            border-right: 1px solid #3273EB;
+            border-left: 1px solid #3273EB;
+            background-color: rgba(64, 64, 64, 0.50);
+            box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);*/
+            padding: 25px;
+            align-items: center;
+            justify-content: center;
+
+
+            text {
+                color: rgba(255, 255, 255, 0.50);
+                text-align: center;
+                font-family: Poppins;
+                font-size: 15px;
+                font-style: normal;
+                font-weight: 700;
+                letter-spacing: 0.3px;
+            }
+        }
+
+        .form {
+            margin: 100px;
+            width: 512px;
+            flex-direction: column;
+
+            .title {
+                text-shadow: none;
+                font-size: 25px;
+                text-transform: none;
+                letter-spacing: 0px;
+                align-self:center;
+            }
+
+            .input {
+                height: 50px;
+                width: 100%;
+                border-radius: 10px;
+                overflow-x: scroll;
+                background-color: rgba(64, 64, 64, 0.50);
+                font-family: Poppins;
+            }
+
+            .error {
+                margin-left:10px;
+                margin-top:5px;
+                color:crimson;
+            }
+        }
+
+        .submit {
+            padding: 15px 200px;
+            border-radius: 25px;
+            background-color: rgba(64, 64, 64, 0.50);
+            backdrop-filter: blur(12.5px);
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #FFF;
+            text-align: center;
+            font-family: Poppins;
+            font-size: 30px;
+            font-style: normal;
+            font-weight: 700;
+            letter-spacing: 0.6px;
+            transition: all 0.2s ease-in;
+            text-transform: uppercase;
+            transform: scale(1);
+
+            &.error {
+                background-color: #EB3D32;
+                cursor: not-allowed;
+            }
+
+            &:hover:not(.error) {
+                background-color: #3273EB;
+            }
+        }
+    }
+
+    .terry {
+        position: absolute;
+        right: 50px;
+        bottom: 0;
+
+        svg {
+            padding: 512px;
+        }
+    }
+
+    .sbox {
+        position: absolute;
+        right: 50px;
+        top: 50px;
+
+        svg {
+            padding: 32px;
+        }
+    }
+}

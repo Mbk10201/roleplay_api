@@ -1,0 +1,87 @@
+﻿@inherits RoleplayPanel
+@attribute [StyleSheet]
+@implements IChatPanel
+@namespace Mbk.RoleplayAPI.UI.Shared.Chat
+
+<root class=@(IsOpen ? "open" : "closed")>
+    <div class="left">
+        <panel class="box">
+            <div @ref="EntryCanvas" class="entries"></div>
+        </panel>
+    
+        <panel class="input">
+            <textentry @ref="InputEntry" @onblur=@InputBlurred @onsubmit=@InputSubmitted></textentry>
+            <div class="actions">
+                <i @onclick=@(()=> Log.Info("Chat - Settings"))>settings</i>
+                <i @onclick=@(()=> Log.Info("Chat - Reaction"))>add_reaction</i>
+            </div>
+        </panel>
+    </div>
+</root>
+
+@code {
+    public static ChatPanel Instance { get; private set; }
+
+    public TextEntry InputEntry { get; set; }
+    Panel EntryCanvas { get; set; }
+    public bool IsOpen { get; set; }
+
+
+    public ChatPanel()
+    {
+        Instance = this;
+    }
+
+    protected override void OnAfterTreeRender(bool firstTime)
+    {
+        base.OnAfterTreeRender(firstTime);
+
+        if (firstTime)
+        {
+            InputEntry.MaxLength = 64;
+            EntryCanvas.PreferScrollToBottom = true;
+            InputEntry.AllowEmojiReplace = true;
+        }
+    }
+
+    public void AddMessage(string author, string message, string classes)
+    {
+        var entry = new ChatEntry()
+        {
+            Author = author,
+            Message = message
+        };
+        entry.AddClass(classes);
+
+        EntryCanvas.AddChild(entry);
+    }
+
+    private void InputSubmitted()
+    {
+        var msg = InputEntry.Text;
+
+        if (string.IsNullOrWhiteSpace(msg))
+            return;
+
+        Chat.Say(msg.Trim());
+    }
+
+    private void InputBlurred()
+    {
+        Close();
+        InputEntry.Text = string.Empty;
+        StateHasChanged();
+    }
+
+    public void Open()
+    {
+        IsOpen = true;
+        InputEntry.Focus();
+        StateHasChanged();
+    }
+
+    public void Close()
+    {
+        IsOpen = false;
+    }
+}

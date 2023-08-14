@@ -1,0 +1,136 @@
+﻿@import "../../Styles/_vars.scss";
+
+ChatPanel {
+    position: absolute;
+    bottom: 270px;
+    left: 30px;
+    flex-direction: row;
+    z-index: 2;
+    font-size: 20px;
+    font-family: Poppins;
+    color: white;
+
+    &.open {
+        pointer-events: all;
+
+        .left {
+            .box {
+                //background-color: rgba($bg 0.8);
+                background-color: rgba(210, 210, 210, 0.15);
+                transition: all 0.3s ease-in;
+                border: 1px solid gray;
+                //mask-image: none;
+            }
+
+            .input {
+                opacity: 1;
+                transition: all 0.3s ease-in;
+
+                textentry {
+                    cursor: text;
+                }
+            }
+
+            .faded {
+                opacity: 1;
+            }
+        }
+    }
+
+    .left {
+        width: 500px;
+        flex-direction: column;
+
+        .box {
+            height: 300px;
+            width: 100%;
+            padding:10px;
+            border-radius: 7px;
+            flex-direction: column;
+            justify-content: flex-end;
+
+            .entries {
+                flex-direction: column;
+                overflow: scroll;
+            }
+        }
+
+        .input {
+            opacity: 0;
+            min-height: 50px;
+            max-height: 80px;
+            background-color: rgba(210, 210, 210, 0.15);
+            border: 1px solid gray;
+            border-radius: 7px;
+            margin-top: 5px;
+            align-items: center;
+
+            textentry {
+                width:85%;
+                padding: 2px;
+                align-items: center;
+                font-size: 15px;
+                word-break: break-all;
+            }
+
+            .actions {
+                position: absolute;
+                right: 0;
+
+                i {
+                    padding: 8px;
+                    transition: all 0.7s ease-out;
+
+                    &:hover {
+                        cursor: pointer;
+                        transform: scale(1.05);
+                        color: #ffde34;
+                        text-shadow: 0px 0px 7px black;
+                    }
+                }
+            }
+        }
+    }
+
+    .right {
+        height: 100%;
+        width: 300px;
+        margin-left: 5px;
+    }
+}
+
+ChatEntry {
+    flex-shrink: 0;
+    width: 100%;
+    transition: opacity 0.15s linear;
+    font-family: Poppins;
+    gap:10px;
+
+    &.faded {
+        opacity: 0;
+    }
+
+    .author {
+        opacity: 1;
+        flex-shrink: 0;
+        font-size: 18px;
+        align-self: center;
+        color: goldenrod;
+    }
+
+    .message {
+        cursor: text;
+        font-size:18px;
+    }
+    // Server announcement
+    &.info {
+
+        .name {
+            opacity: 1;
+            color: $main-green;
+        }
+
+        .message {
+        }
+    }
+}

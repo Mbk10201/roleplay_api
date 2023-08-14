@@ -1,0 +1,19 @@
+﻿@inherits RoleplayPanel
+@attribute [StyleSheet]
+@implements IAlertPanel
+@namespace Mbk.RoleplayAPI.UI.Shared.AlertSystem
+
+<root>
+</root>
+
+@code {
+    new public void Add(AlertBuilder item)
+    {
+        Game.AssertClient();
+
+        var panel = AddChild<AlertItem>();
+        panel.Title = item.Title;
+        panel.Message = item.Message;
+        panel.Type = item.Type;
+    }
+}

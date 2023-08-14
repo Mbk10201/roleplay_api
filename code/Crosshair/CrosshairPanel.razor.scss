@@ -1,0 +1,14 @@
+﻿CrosshairPanel {
+    height:100%;
+    width:100%;
+    position:absolute;
+    align-items:center;
+    justify-content:center;
+
+
+    .dot {
+        height:5px;
+        width:5px;
+        background-color:red;
+    }
+}

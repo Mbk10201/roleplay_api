@@ -1,0 +1,53 @@
+﻿@inherits RoleplayPanel
+@attribute [StyleSheet]
+@implements ITabPanel
+@namespace Mbk.RoleplayAPI.UI.Shared.Tab
+
+
+<root class=@(IsOpen ? "open" : "closed")>
+    <div class="container">
+        <span class="hostname">@Game.Server.ServerTitle</span>
+        <div class="header">
+            <span>Avatar</span>
+            <span>Name</span>
+            <span>SteamID</span>
+            <span>Ping</span>
+        </div>
+        <div class="players">
+            @foreach(var player in Game.Clients)
+            {
+                <div class="player">
+                    <span>
+                        <img class="avatar" src="avatar:@player.SteamId" />
+                    </span>
+                    <span class="name">@player.Name</span>
+                    <span class="steamid">@player.SteamId</span>
+                    <span class="ping">@player.Ping</span>
+                </div>
+            }
+        </div>
+    </div>
+</root>
+
+@code {
+    bool IsOpen { get; set; }
+
+    protected override void OnAfterTreeRender(bool firstTime)
+    {
+        base.OnAfterTreeRender(firstTime);
+
+        if (firstTime)
+        {
+        }
+    }
+
+    public override void Tick()
+    {
+        IsOpen = Input.Down("tab");
+    }
+
+    protected override int BuildHash()
+    {
+        return HashCode.Combine(DateTime.Now.ToString() + IsOpen);
+    }
+}

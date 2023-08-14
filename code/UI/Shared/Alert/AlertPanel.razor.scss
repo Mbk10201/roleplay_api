@@ -1,0 +1,18 @@
+﻿AlertPanel {
+    position: absolute;
+    height:512px;
+    bottom: 0;
+    right: 0;
+    margin: 30px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    color: white;
+    font-family: Poppins;
+    overflow:hidden;
+
+    > * {
+        flex-shrink:0;
+    }
+}

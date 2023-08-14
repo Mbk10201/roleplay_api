@@ -1,0 +1,116 @@
+﻿@import "../../Styles/_vars.scss";
+
+TabPanel {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-family: Poppins;
+    pointer-events: all;
+   
+    transition: all 0.2s ease-in;
+    transform: scale( 1 );
+
+    &:intro {
+        transform: scale( 0 );
+    }
+    // When the element is deleted make it double in size before being deleted.
+    &:outro {
+        transform: scale( 2 );
+    }
+
+    &.open {
+        opacity: 1;
+    }
+
+    .container {
+        height: 50%;
+        width: 40%;
+        //background-color: rgba(100, 100, 100, 0.5);
+        border-radius: 16px;
+        padding: 5px;
+        flex-direction: column;
+        backdrop-filter: blur(10px);
+
+        .hostname {
+            height: 100px;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            //color: #3273EB;
+        }
+
+        .header {
+            padding: 10px;
+            flex-basis: 15%;
+            justify-content: space-evenly;
+            align-items: center;
+
+            span {
+                width: 25%;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        .players {
+            height: 100%;
+            width: 100%;
+            flex-direction: column;
+            overflow: scroll;
+
+            .player {
+                width: 100%;
+                flex-shrink: 0;
+                flex-basis: 15%;
+                align-items: center;
+                cursor: pointer;
+                font-size: 25px;
+                justify-content: space-evenly;
+                padding: 10px;
+                border-radius: 5px;
+
+                .avatar {
+                    height: 40px;
+                    width: 40px;
+                    border-radius: 4px;
+                }
+
+                span {
+                    width: 25%;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                .bar {
+                    height: 55%;
+                    width: 2px;
+                    background-color: red;
+                }
+
+                .name {
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                .steamid {
+                    opacity: 0.2;
+                    font-size: 15px;
+                }
+
+                .ping {
+                    opacity: 0.2;
+                    font-size: 15px;
+                }
+
+                &:hover {
+                    background-color: rgba(55, 55, 55, 0.8);
+                }
+            }
+        }
+    }
+}

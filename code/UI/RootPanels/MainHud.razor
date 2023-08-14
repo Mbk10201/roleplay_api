@@ -1,0 +1,69 @@
+﻿@using Mbk.RoleplayAPI.UI.Shared.Carriable;
+@using Mbk.RoleplayAPI.UI.Shared.Chat;
+@using Mbk.RoleplayAPI.UI.Shared.Inventory;
+@using Mbk.RoleplayAPI.UI.Shared.Tab;
+
+@inherits RootPanel
+@attribute [StyleSheet]
+@namespace Mbk.RoleplayAPI.UI.RootPanels
+
+<root>
+    <CarriablePanel></CarriablePanel>
+    <CrosshairPanel></CrosshairPanel>
+    <InventoryPanel></InventoryPanel>
+</root>
+
+@code {
+    public static MainHud Instance { get; private set; }
+    public static IChatPanel ChatPanel { get; private set; }
+    public static ITabPanel TabPanel { get; private set; }
+
+    public MainHud()
+    {
+        Instance = this;
+        Game.RootPanel = this;
+
+        LoadChilds();
+    }
+
+    private void LoadChilds()
+    {
+        foreach (var attr in TypeLibrary.GetAttributes<HudElementAttribute>())
+        {
+            Log.Info(attr.TargetType);
+            var panel = TypeLibrary.Create<RoleplayPanel>(attr.TargetType);
+            AddChild(panel);
+        }
+
+        AddChat();
+        AddTab();
+    }
+
+    private void AddChat()
+    {
+        foreach (var type in TypeLibrary.GetTypes().Where(x => x.IsClass))
+        {
+            if (type.Interfaces.Count(x => x.Name == "IChatPanel") > 0)
+            {
+                Log.Info(type.ClassName);
+                ChatPanel = (IChatPanel)TypeLibrary.Create(type.TargetType.Name, type.TargetType);
+                AddChild((RoleplayPanel)ChatPanel);
+                return;
+            }
+        }
+    }
+
+    private void AddTab()
+    {
+        foreach (var type in TypeLibrary.GetTypes().Where(x => x.IsClass))
+        {
+            if (type.Interfaces.Count(x => x.Name == "ITabPanel") > 0)
+            {
+                Log.Info(type.ClassName);
+                TabPanel = (ITabPanel)TypeLibrary.Create(type.TargetType.Name, type.TargetType);
+                AddChild((RoleplayPanel)TabPanel);
+                return;
+            }
+        }
+    }
+}

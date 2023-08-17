@@ -1,0 +1,26 @@
+﻿@inherits WorldPanel
+@attribute [StyleSheet]
+@namespace Mbk.RoleplayAPI.UI.WorldPanels
+
+@code {
+
+    public Panel Avatar;
+    public Label NameLabel;
+    public IClient ClientRef;
+
+    public NameTagPanel(IClient client)
+    {
+        ClientRef = client;
+        Avatar = Add.Image($"avatar:{client.SteamId}", "avatar");
+		NameLabel = Add.Label(client.Name, "name");
+
+		// this is the actual size and shape of the world panel
+		PanelBounds = new Rect(-500, -100, 1000, 200);
+	}
+
+	protected override void OnAfterTreeRender(bool firstTime)
+	{
+		base.OnAfterTreeRender(firstTime);
+		
+	}
+}

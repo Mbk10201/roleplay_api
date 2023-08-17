@@ -141,6 +141,12 @@ public partial class Chat
 				{
 					Log.Info( "noclip" );
 					player.SetNoclip();
+
+					break;
+				}
+				case "atm":
+				{
+						ConsoleSystem.Run( $"CreateAtm {player.Position}" );
 					break;
 				}
 			}

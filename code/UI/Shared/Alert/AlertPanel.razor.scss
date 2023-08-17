@@ -1,6 +1,6 @@
 ﻿AlertPanel {
     position: absolute;
-    height:512px;
+    height: 512px;
     bottom: 0;
     right: 0;
     margin: 30px;
@@ -10,9 +10,10 @@
     gap: 5px;
     color: white;
     font-family: Poppins;
-    overflow:hidden;
+    overflow: hidden;
+    transition: all 0.5s ease-out;
 
     > * {
-        flex-shrink:0;
+        flex-shrink: 0;
     }
 }

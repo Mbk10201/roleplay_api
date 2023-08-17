@@ -2,6 +2,7 @@
 using Mbk.RoleplayAPI.Entities.Weapons;
 using Mbk.RoleplayAPI.Inventory;
 using Mbk.RoleplayAPI.Models;
+using Sandbox;
 
 namespace Mbk.RoleplayAPI.Player;
 
@@ -369,14 +370,15 @@ public partial class RoleplayPlayer : AnimatedEntity
 
 		GetActiveController()?.BuildInput();
 
-		WorldInput.Ray = new Ray( EyePosition, EyeRotation.Forward );
-		WorldInput.MouseLeftPressed = Input.Down( "attack1" );
+		WorldInput.Ray = AimRay;
+		WorldInput.MouseLeftPressed = Input.Down( "left_click" );
+		WorldInput.MouseRightPressed = Input.Down( "right_click" );
+		WorldInput.MouseScroll = Input.MouseWheel;
 
 		if ( WorldInput.Hovered != null )
 		{
-			//Log.Info( WorldInput.Hovered );
-			Input.Clear( "attack1" );
-			Input.Clear( "attack2" );
+			Input.Clear( "left_click" );
+			Input.Clear( "right_click" );
 		}
 	}
 

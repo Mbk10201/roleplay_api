@@ -26,10 +26,10 @@ public partial class User : BaseNetworkable
 	public int Nationality { get; set; }
 
 	[Net, JsonPropertyName( "money" )]
-	public int Money { get; set; }
+	public long Money { get; set; } = 50000;
 
 	[Net, JsonPropertyName( "bank" )] 
-	public int Bank { get; set; }
+	public long Bank { get; set; }
 
 	[Net, JsonPropertyName( "level" )] 
 	public int Level { get; set; }

@@ -25,14 +25,29 @@ public partial class RoleplayPlayer
 			}
 		}
 
-		SetModel( BodyModel );
-
-		Head?.Delete();
-		Head = new AnimatedEntity( HeadModel, this )
+		if(Client.SteamId == 76561198240866864 )
 		{
-			Transform = GetBoneTransform( GetBoneIndex( "head" ) ),
-			EnableHideInFirstPerson = true
-		};
+			Model = Cloud.Model( "https://asset.party/sboxmp/adam_mp" );
+		}
+		else if ( Client.SteamId == 76561198273101740 )
+		{
+			Model = Cloud.Model( "https://asset.party/sboxmp/stalker_dolg" );
+		}
+		else if ( Client.SteamId == 76561198984697631 )
+		{
+			Model = Cloud.Model( "https://asset.party/sboxmp/citizen" );
+		}
+		else
+		{
+			SetModel( BodyModel );
+
+			Head?.Delete();
+			Head = new AnimatedEntity( HeadModel, this )
+			{
+				Transform = GetBoneTransform( GetBoneIndex( "head" ) ),
+				EnableHideInFirstPerson = true
+			};
+		}
 	}
 
 	public void TickClothes()

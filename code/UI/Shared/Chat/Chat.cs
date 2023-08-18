@@ -146,7 +146,13 @@ public partial class Chat
 				}
 				case "atm":
 				{
-						ConsoleSystem.Run( $"CreateAtm {player.Position}" );
+					var tr = Trace.Ray( player.AimRay, 256f )
+					.Size( 1.0f )
+					.Ignore( player )
+					.Run();
+
+					if ( tr.Hit )
+						ConsoleSystem.Run( $"CreateAtm {tr.EndPosition}" );
 					break;
 				}
 			}

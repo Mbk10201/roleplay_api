@@ -282,7 +282,6 @@ public partial class RoleplayPlayer : AnimatedEntity
 	{
 		Game.AssertServer();
 
-
 		Controller = new WalkController();
 
 		if ( DevController is NoclipController )
@@ -312,11 +311,11 @@ public partial class RoleplayPlayer : AnimatedEntity
 
 		GiveInitialItems();
 
-		/*Holster.Add( new PhysGun(), true );
-		Holster.Add( new GravGun() );
+		Holster.Add( new PhysGun() );
+		Holster.Add( new Pistol() );
+		Holster.Add( new Fists(), true );
+		/*Holster.Add( new GravGun() );
 		Holster.Add( new Flashlight() );
-		Holster.Add( new Fists() );
-		Holster.Add( new Pistol(), true );
 		Holster.Add( new Keys() );
 		Holster.Add( new PhoneEntity() );
 		Holster.Add( new Wallet() );*/

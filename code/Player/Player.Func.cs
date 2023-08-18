@@ -3,28 +3,28 @@
 public partial class RoleplayPlayer
 {
 	[ConCmd.Server]
-	public static void SetMoney( int value )
+	public static void SetMoney( long value )
 	{
 		var player = ConsoleSystem.Caller.Pawn as RoleplayPlayer;
 		player.Data.Money = value;
 	}
 
 	[ConCmd.Server]
-	public static void AddMoney( int value )
+	public static void AddMoney( long value )
 	{
 		var player = ConsoleSystem.Caller.Pawn as RoleplayPlayer;
 		player.Data.Money += value;
 	}
 
 	[ConCmd.Server]
-	public static void SetBank( int value )
+	public static void SetBank( long value )
 	{
 		var player = ConsoleSystem.Caller.Pawn as RoleplayPlayer;
 		player.Data.Bank = value;
 	}
 
 	[ConCmd.Server]
-	public static void AddBank( int value )
+	public static void AddBank( long value )
 	{
 		var player = ConsoleSystem.Caller.Pawn as RoleplayPlayer;
 		player.Data.Bank += value;

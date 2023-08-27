@@ -1,8 +1,11 @@
-﻿using Mbk.Logs;
+﻿using Mbk.Admin;
+using Mbk.Admin.Logs;
 using Mbk.RoleplayAPI.Entities.Weapons;
 using Mbk.RoleplayAPI.Inventory;
 using Mbk.RoleplayAPI.Models;
 using Sandbox;
+using Mbk.RoleplayAPI.Database;
+using Mbk.RoleplayAPI.Database.DTO;
 
 namespace Mbk.RoleplayAPI.Player;
 
@@ -47,13 +50,42 @@ public partial class RoleplayPlayer : AnimatedEntity
 
 	public RoleplayPlayer()
 	{
-		Data = new User( this );
 		Holster = new CarriableHolster( this );
+		Data = new UserDTO();
 
 		if ( Game.IsServer )
 		{
+			//_ = InitDatabase();
 			CreateInventories();
 		}
+	}
+
+	async Task InitDatabase()
+	{
+		var instance = Database.Database.Get<PlayerTable>();
+
+		Log.Info( instance );
+
+		if ( instance == null )
+			return;
+
+		foreach( var row in instance.Rows )
+		{
+			Log.Info( row.SteamId );
+		}
+
+		/*Log.Info( instance.Exist( Client.SteamId ) );
+
+		if ( !instance.Exist(Client.SteamId) )
+		{
+			await instance.Insert( new UserDTO()
+			{
+				SteamId = Client.SteamId,
+				Name = Client.Name
+			} );
+		}
+
+		Data = instance.Get( Client );*/
 	}
 
 	public void CreatePawn( IClient client )
@@ -142,7 +174,7 @@ public partial class RoleplayPlayer : AnimatedEntity
 			ThirdPerson = !ThirdPerson;
 		}
 
-		if ( Data.Thirst > 0f )
+		if ( Data?.Thirst > 0f )
 		{
 			if ( Input.Down( "Run" ) )
 				Data.Thirst -= Game.Random.Float( 0.004f, 0.01f );
@@ -150,7 +182,7 @@ public partial class RoleplayPlayer : AnimatedEntity
 				Data.Thirst -= 0.001f;
 		}
 
-		if ( Data.Hunger > 0f )
+		if ( Data?.Hunger > 0f )
 		{
 			if ( Input.Down( "Run" ) )
 				Data.Hunger -= Game.Random.Float( 0.001f, 0.006f );
@@ -307,7 +339,7 @@ public partial class RoleplayPlayer : AnimatedEntity
 		GameManager.Current?.MoveToSpawnpoint( this );
 		ResetInterpolation();
 
-		LogSystem.Write( new LogRespawn( this, Transform, CurrentZone ) );
+		AdminSystem.WriteLog( new LogRespawn( this, Transform, CurrentZone ) );
 
 		GiveInitialItems();
 

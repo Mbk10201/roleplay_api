@@ -1,12 +1,75 @@
-﻿namespace Mbk.RoleplayAPI.Player;
+﻿using Mbk.Admin;
+using Mbk.Admin.UI.Alert;
+using Mbk.Discord;
+using Mbk.Discord.Attributes;
+using Mbk.Discord.Models;
+
+namespace Mbk.RoleplayAPI.Player;
 
 public partial class RoleplayPlayer
 {
-	[ConCmd.Server]
-	public static void SetMoney( long value )
+	[DiscordGameEvent( "Set money", "set_money", "When a admin set money of a player." )]
+	[Command( "Set Money", typeof( SetMoneyDialog ), "material-symbols:euro", clientaction: true )]
+	public static void SetMoney( long steamid, long adminid, long value )
 	{
-		var player = ConsoleSystem.Caller.Pawn as RoleplayPlayer;
-		player.Data.Money = value;
+		var client = Game.Clients.SingleOrDefault( x => x.SteamId == steamid );
+		var admin = Game.Clients.SingleOrDefault( x => x.SteamId == adminid );
+
+		if ( !admin.CanTarget( client ) )
+		{
+			Alert.Add( To.Single( admin ), "Impossible", $"{client.Name} has more immunity than you !", Mbk.Admin.UI.Alert.eAlertType.Error );
+			return;
+		}
+
+		Alert.Add( To.Single( admin ), "Success", $"You have successfully set money of {client.Name} to {value}", Mbk.Admin.UI.Alert.eAlertType.Success );
+
+		var pawn = client.Pawn as RoleplayPlayer;
+		pawn.Data.Money = value;
+
+		var EventSettings = DiscordSystem.GetGameEvent( "set_money" );
+
+		if ( EventSettings.Broadcast )
+		{
+			var message = new MessageForm();
+
+			if ( EventSettings.DisplayEmbed )
+			{
+				message = new()
+				{
+					Embeds = new()
+					{
+						new Embed()
+						{
+							Title = EventSettings.Name,
+							Description = $"{admin.Name} has set the money of {client.Name} to {value}€.",
+							Color = EventSettings.GetColor()
+						}
+					}
+				};
+			}
+			else
+			{
+				message = new()
+				{
+					Content = $"{admin.Name} has set the money of {client.Name} to {value}€."
+				};
+			}
+
+			if ( EventSettings.UseAsBot && Discord.Client.Instance.TokenValid )
+			{
+				if ( EventSettings.ChannelID is null )
+					return;
+
+				Discord.Client.SendMessage( EventSettings.ChannelID.Value, message );
+			}
+			else
+			{
+				if ( EventSettings.Webhook == string.Empty )
+					return;
+
+				Webhook.SendMessage( EventSettings.Webhook, message );
+			}
+		}
 	}
 
 	[ConCmd.Server]
@@ -34,14 +97,14 @@ public partial class RoleplayPlayer
 	public static void SetFirstname( string value )
 	{
 		var player = ConsoleSystem.Caller.Pawn as RoleplayPlayer;
-		player.Data.Firstname = value;
+		player.Data.FirstName = value;
 	}
 
 	[ConCmd.Server]
 	public static void SetLastname( string value )
 	{
 		var player = ConsoleSystem.Caller.Pawn as RoleplayPlayer;
-		player.Data.Lastname = value;
+		player.Data.LastName = value;
 	}
 
 	[ConCmd.Server]
@@ -69,14 +132,14 @@ public partial class RoleplayPlayer
 	public static void SetJobID( string value )
 	{
 		var player = ConsoleSystem.Caller.Pawn as RoleplayPlayer;
-		player.Data.JobID = value;
+		player.Data.JobId = value;
 	}
 
 	[ConCmd.Server]
 	public static void SetJobGradeID( int value )
 	{
 		var player = ConsoleSystem.Caller.Pawn as RoleplayPlayer;
-		player.Data.GradeID = value;
+		player.Data.GradeId = value;
 	}
 
 	[ConCmd.Server]

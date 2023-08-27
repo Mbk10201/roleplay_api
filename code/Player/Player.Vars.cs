@@ -1,11 +1,12 @@
-﻿using Mbk.RoleplayAPI.Inventory;
+﻿using Mbk.RoleplayAPI.Database.DTO;
+using Mbk.RoleplayAPI.Inventory;
 
 namespace Mbk.RoleplayAPI.Player;
 
 public partial class RoleplayPlayer
 {
 	[Net]
-	public User Data { get; set; }
+	public UserDTO Data { get; set; }
 
 	[Net]
 	public string CurrentZone { get; set; } = "N/A";

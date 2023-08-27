@@ -20,7 +20,7 @@ public abstract partial class Job : BaseNetworkable
 
 	public IList<RoleplayPlayer> GetMembers {
 		get {
-			return Entity.All.OfType<RoleplayPlayer>().Where( x => x.Data.JobID == Identifier ).ToList();
+			return Entity.All.OfType<RoleplayPlayer>().Where( x => x.Data.JobId == Identifier ).ToList();
 		}
 	}
 

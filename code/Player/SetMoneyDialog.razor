@@ -1,0 +1,72 @@
+﻿@using Mbk.Admin;
+@using Mbk.Admin.Logs;
+@using Sandbox.UI;
+@using Sandbox;
+@using System.Collections.Generic;
+@using System;
+@using Mbk.Admin.UI.Alert;
+
+@inherits Panel
+@implements Mbk.Admin.UI.Dialog.IDialog
+@attribute [StyleSheet]
+@namespace Mbk.RoleplayAPI.Player
+
+<root>
+    <span class="title">@TargetCommand.Name</span>
+    <span>Target: @Player.Name</span>
+    <panel class="dialogbody">
+        <div>
+            <span>Amount</span>
+            <TextEntry @ref="Amount" class="@(Amount.Text == "" ? "required" : "valid")" numeric="true"></TextEntry>
+        </div>
+        <div>
+            <span>Your are about to set @Player.Name money to @Amount.Text.</span>
+        </div>
+    </panel>
+    <div class="dialogfooter">
+        <button class="submit @(CanBeRun() == false ? "disabled" : "")" onclick=@(()=> Submit())>Submit</button>
+    </div>
+    <button class="close">
+        <i @onclick=@(()=> Delete()) tooltip="Close">close</i>
+    </button>
+</root>
+
+@code {
+    public IClient Player { get; set; }
+    public Command TargetCommand { get; set; }
+    public LogObject TargetLog { get; set; }
+    TextEntry Amount { get; set; }
+
+    bool CanBeRun()
+    {
+        if (Amount.Text == "")
+            return false;
+
+        return true;
+    }
+
+    void Submit()
+    {
+        if (Amount.Text == "")
+        {
+            Alert.Add(new()
+            {
+                Title = "Required",
+                Message = "Amount field is required",
+                Type = eAlertType.Error
+            });
+
+
+            return;
+        }
+
+        Delete();
+
+        Command.Run(TargetCommand.Name, Player.SteamId.ToString(), Game.LocalClient.SteamId.ToString(), Amount.Text);
+    }
+
+    protected override int BuildHash()
+    {
+        return HashCode.Combine(DateTime.Now + Amount.Text);
+    }
+}

@@ -3,9 +3,9 @@
 public partial class RoleplayAPI
 {
 	public const string OnServerInit = "onserverinit";
-	public class OnServerInitttribute : EventAttribute
+	public class OnServerInitAttribute : EventAttribute
 	{
-		public OnServerInitttribute() : base( OnServerInit ) { }
+		public OnServerInitAttribute() : base( OnServerInit ) { }
 	}
 
 	public const string OnClientInit = "onclientinit";

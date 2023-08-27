@@ -1,0 +1,76 @@
+﻿@using Sandbox.UI;
+@using Sandbox;
+@using Mbk.TaigaUI.Core.Components;
+@using System.Collections.Generic;
+@using System;
+@using Mbk.Admin.UI.Alert;
+@using Mbk.Admin.Logs;
+
+@inherits Panel
+@implements IDialog
+@attribute [StyleSheet]
+@namespace Mbk.Admin.UI.Dialog.Childs
+
+<root>
+    <span class="title">@TargetCommand.Name</span>
+    <span>Target: @Player.Name</span>
+    <panel class="dialogbody">
+        <div>
+            <span>Role ID</span>
+            <tui-dropdown @ref="Dropdown">
+                @foreach (var role in AdminSystem.Instance.Roles)
+                {
+                    <option>@role.Name</option>
+                }
+            </tui-dropdown>
+        </div>
+        <div>
+            <span>Your are about to give @(Dropdown.Selected != null ? Role.GetRef(Dropdown.Selected.Value.ToString()).Name : "X") role to @Player.Name.</span>
+        </div>
+    </panel>
+    <div class="dialogfooter">
+        <button class="submit @(CanBeRun() == false ? "disabled" : "")" onclick=@(()=> Submit())>Submit</button>
+    </div>
+    <button class="close">
+        <i @onclick=@(()=> Delete()) tooltip="Close">close</i>
+    </button>
+</root>
+
+@code {
+    public IClient Player { get; set; }
+    public Command TargetCommand { get; set; }
+    public LogObject TargetLog { get; set; }
+    TuiDropDown Dropdown { get; set; }
+
+    bool CanBeRun()
+    {
+        if (Dropdown.Selected == null)
+            return false;
+
+        return true;
+    }
+
+    void Submit()
+    {
+        if (Dropdown.Selected == null)
+        {
+            Alert.Add(new()
+            {
+                Title = "Required",
+                Message = "Role ID field is required",
+                Type = eAlertType.Error
+            });
+
+            return;
+        }
+        
+        Delete();
+
+        Command.Run(TargetCommand.Name, Player.SteamId.ToString(), Game.LocalClient.SteamId.ToString(), Dropdown.Selected.Value.ToString());
+    }
+
+    protected override int BuildHash()
+    {
+        return HashCode.Combine(DateTime.Now);
+    }
+}

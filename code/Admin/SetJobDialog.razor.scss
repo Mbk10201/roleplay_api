@@ -1,0 +1,71 @@
+SetJobDialog {
+    flex-direction: column;
+
+    .title {
+        position: absolute;
+        top: 20px;
+        font-size: 35px;
+        text-transform: capitalize;
+    }
+
+    .dialogbody {
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 75%;
+        width: 50%;
+        gap: 25px;
+
+        div {
+            width: 100%;
+            flex-direction: column;
+            transition: all 0.5s ease-in;
+
+            TextEntry {
+                flex-grow: 0;
+                width: 100%;
+                border-radius: 10px;
+                border: 1.5px solid grey;
+                transition: all 0.5s ease-in;
+                overflow-x: scroll;
+
+                &.required {
+                    border: 1.5px solid rgba(244, 87, 37, .32);
+                }
+
+                &.valid {
+                    border: 1.5px solid rgba(74, 201, 155, .32);
+                }
+            }
+        }
+    }
+
+    .dialogfooter {
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+
+        .submit {
+            width: 80%;
+            font-weight: 500;
+            font-size: 20px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(74, 201, 155, .32);
+            transition: all 0.2s ease-in;
+            cursor: pointer;
+
+            &:hover {
+                transform: scale(1);
+                background-color: rgba(74, 201, 155, .8);
+            }
+
+            &.disabled {
+                //pointer-events: none;
+                background-color: rgba(244, 87, 37, .32);
+            }
+        }
+    }
+}

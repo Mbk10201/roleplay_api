@@ -1,4 +1,4 @@
-﻿namespace Mbk.RoleplayAPI.Models;
+﻿namespace Mbk.RoleplayAPI.Database.DTO;
 
 public partial class UserCharacter : BaseNetworkable
 {

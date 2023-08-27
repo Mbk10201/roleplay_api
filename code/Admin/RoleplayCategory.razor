@@ -1,0 +1,147 @@
+﻿@using Mbk.Admin;
+@using Mbk.RoleplayAPI.Jobs;
+@using Mbk.RoleplayAPI.Player;
+@using System;
+
+@inherits Panel
+@implements IAdminPlayerCategory
+@attribute [StyleSheet]
+
+@if (Pawn == null)
+    return;
+
+<root>
+    <div class="row">
+        <div class="col">
+            <div class="item">
+                First Name: <span>@Pawn.Data.FirstName</span>
+            </div>
+            <div class="item">
+                Money: <span>@Pawn.Data.Money €</span>
+            </div>
+            <div class="item">
+                Level: <span>@Pawn.Data.Level</span>
+            </div>
+            <div class="item">
+                Job: <span>@JobSystem.GetJobName(Pawn.Data.JobId)</span>
+            </div>
+            <div class="item">
+                Hunger:
+                <span>
+                    <tui-progress-bar max="100" size="s" color="rgba(#39ffa0, 0.5)" value="@Pawn.Data.Hunger"></tui-progress-bar>
+                </span>
+            </div>
+            <div class="item">
+                Has bank card: <span>@Pawn.Data.HasBankCard</span>
+            </div>
+            <div class="item">
+                New citizen: <span>@Pawn.Data.IsNew</span>
+            </div>
+        </div>
+        <spacer></spacer>
+        <div class="col">
+            <div class="item">
+                Last Name: <span>@Pawn.Data.LastName</span>
+            </div>
+            <div class="item">
+                Bank: <span>@Pawn.Data.Bank €</span>
+            </div>
+            <div class="item">
+                XP: <span>@Pawn.Data.XP</span>
+            </div>
+            <div class="item">
+                Grade: <span>@JobSystem.GetGradeName(Pawn.Data.JobId, Pawn.Data.GradeId)</span>
+            </div>
+            <div class="item">
+                Thirst:
+                <span>
+                    <tui-progress-bar max="100" size="s" color="rgba(dodgerblue, 0.8)" value="@Pawn.Data.Thirst"></tui-progress-bar>
+                </span>
+            </div>
+            <div class="item">
+                Has bank details: <span>@Pawn.Data.HasBankDetails</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="category @(StatsExpanded ? "expanded" : "")">
+            <div class="cat__header" onclick=@(()=> StatsExpanded = !StatsExpanded)>
+                Stats
+                <i>expand_less</i>
+            </div>
+            <div class="cat__body">
+                <div class="col">
+                    <div class="item">
+                        Tickets closed: <span>@Pawn.Data.Stats.TicketsClosed</span>
+                    </div>
+                </div>
+                <spacer></spacer>
+                <div class="col">
+                    <div class="item">
+                        Time on duty: <span>@Pawn.Data.Stats.AdutyTimestamp</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="category @(PrefsExpanded ? "expanded" : "")">
+            <div class="cat__header" onclick=@(()=> PrefsExpanded = !PrefsExpanded)>
+                Preferences
+                <i>expand_less</i>
+            </div>
+            <div class="cat__body">
+                <div class="col">
+                    <div class="item">
+                        Minimap: <span>@Pawn.Data.Preferences.Minimap</span>
+                    </div>
+                </div>
+                <spacer></spacer>
+                <div class="col">
+                    <div class="item">
+                        Hud dark thème: <span>@Pawn.Data.Preferences.HudDarkTheme</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="category @(CharacterExpanded ? "expanded" : "")">
+            <div class="cat__header" onclick=@(()=> CharacterExpanded = !CharacterExpanded)>
+                Character
+                <i>expand_less</i>
+            </div>
+            <div class="cat__body">
+                <div class="col">
+                    <div class="item">
+                        Gender: <span>@Pawn.Data.Character.Gender</span>
+                    </div>
+                </div>
+                <spacer></spacer>
+                <div class="col">
+                    <div class="item">
+                        Gender: <span>@Pawn.Data.Character.Gender</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</root>
+
+@code {
+    public string CategoryName => "Roleplay";
+    public IClient Player { get; set; }
+    RoleplayPlayer Pawn => Player.Pawn as RoleplayPlayer;
+    bool StatsExpanded = false;
+    bool PrefsExpanded = false;
+    bool CharacterExpanded = false;
+
+    protected override int BuildHash()
+    {
+        Log.Info(StatsExpanded);
+        Log.Info(PrefsExpanded);
+        Log.Info(CharacterExpanded);
+
+        return HashCode.Combine(DateTime.Now);
+    }
+}

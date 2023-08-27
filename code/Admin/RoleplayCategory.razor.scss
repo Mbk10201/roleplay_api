@@ -1,0 +1,88 @@
+RoleplayCategory {
+    height: 100%;
+    width: 100%;
+    padding: 30px;
+    gap: 10px;
+    flex-direction: column;
+
+    .row {
+        gap: 10px;
+
+        .col {
+            height: 100%;
+            width: 50%;
+            gap: 5px;
+            flex-direction: column;
+
+            .item {
+                width: 100%;
+                justify-content: space-between;
+                align-items: center;
+
+                tui-progress-bar {
+                    height: 5px;
+                    width: 200px;
+                }
+            }
+        }
+
+        .category {
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            flex-shrink: 0;
+            transition: all 0.2s ease-in;
+
+            .cat__header {
+                height: 50px;
+                width: 100%;
+                justify-content: center;
+                align-items: center;
+                background-color: rgba(0, 0, 0, 0.3);
+                cursor: pointer;
+                flex-shrink: 0;
+
+                i {
+                    position: absolute;
+                    right: 5px;
+                    font-size: 25px;
+                    transition: all 0.2s ease-in;
+                }
+            }
+
+            .cat__body {
+                width: 100%;
+                padding: 5px;
+                gap:10px;
+                opacity: 0;
+                display: none;
+                transition: all 0.2s ease-in;
+                background-color: rgba(0, 0, 0, 0.1);
+
+                .col {
+                    gap: 30px;
+                }
+            }
+
+            &.expanded {
+                .cat__header {
+                    i {
+                        transform: rotate(-180deg);
+                    }
+                }
+
+                .cat__body {
+                    opacity: 1;
+                    display: flex;
+                }
+            }
+        }
+    }
+
+    spacer {
+        height: 100%;
+        width: 2px;
+        background-color: rgba(0, 0, 0, 0.3);
+    }
+}

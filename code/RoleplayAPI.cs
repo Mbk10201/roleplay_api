@@ -3,11 +3,12 @@ using Mbk.RoleplayAPI.UI.RootPanels;
 using Mbk.RoleplayAPI.Setup;
 using Mbk.RoleplayAPI.Player;
 using Mbk.RoleplayAPI.Inventory.Items;
+using Mbk.RoleplayAPI.Jobs;
 //using Editor.NodeEditor;
 
 namespace Mbk.RoleplayAPI;
 
-[Display( Name = "Roleplay API" ), Category( "Roleplay" ), Icon( "webhook" )]
+[Display( Name = "Roleplay API" ), Category( "MBK" ), Icon( "webhook" )]
 public partial class RoleplayAPI : Entity
 {
 	public static RoleplayAPI Instance { get; private set; }
@@ -28,7 +29,10 @@ public partial class RoleplayAPI : Entity
 		{
 			Event.Run( OnServerInit );
 
+			_ = new JobSystem();
 			InventorySystem.Initialize();
+			Database.Database.Initialize();
+
 			ItemTag.Register( "deployable", "Deployable", ItemColors.Deployable );
 			ItemTag.Register( "consumable", "Consumable", ItemColors.Consumable );
 			ItemTag.Register( "tool", "Tool", ItemColors.Tool );
@@ -94,12 +98,5 @@ public partial class RoleplayAPI : Entity
 	public static void SaveConfiguration()
 	{
 		FileSystem.Data.WriteJson( "configuration.json", Instance.Configuration);
-	}
-
-	[ConCmd.Server( "test_givemoney" )]
-	public static void TestGiveMoney( int amount )
-	{
-		var player = ConsoleSystem.Caller.Pawn as RoleplayPlayer;
-		RoleplayPlayer.SetMoney( amount );
 	}
 }

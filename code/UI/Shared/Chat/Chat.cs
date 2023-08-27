@@ -4,9 +4,9 @@ using Mbk.Discord;
 using Mbk.RoleplayAPI.UI.RootPanels;
 using Mbk.RoleplayAPI.Player;
 using Mbk.RoleplayAPI.UI.Shared.AlertSystem;
-using Mbk.Logs;
 using Mbk.RoleplayAPI.Entities;
 using Mbk.Admin;
+using Mbk.Admin.Logs;
 
 namespace Mbk.RoleplayAPI.UI.Shared.Chat;
 
@@ -39,7 +39,7 @@ public partial class Chat
 
 		SendToDiscord( ConsoleSystem.Caller.Name, message );
 
-		LogSystem.Write( new LogChat( ConsoleSystem.Caller.Pawn as Entity, message ) );
+		AdminSystem.WriteLog( new LogChat( ConsoleSystem.Caller.Pawn as Entity, message ) );
 
 		AddChat( To.Everyone, ConsoleSystem.Caller.Name, message );
 	}

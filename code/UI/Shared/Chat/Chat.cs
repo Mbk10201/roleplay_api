@@ -7,6 +7,7 @@ using Mbk.RoleplayAPI.UI.Shared.AlertSystem;
 using Mbk.RoleplayAPI.Entities;
 using Mbk.Admin;
 using Mbk.Admin.Logs;
+using Mbk.RoleplayAPI.Systems.Computer;
 
 namespace Mbk.RoleplayAPI.UI.Shared.Chat;
 
@@ -153,6 +154,27 @@ public partial class Chat
 
 					if ( tr.Hit )
 						ConsoleSystem.Run( $"CreateAtm {tr.EndPosition}" );
+					break;
+				}
+				case "db": 
+				{ 
+					player.Data = Database.Database.Get<PlayerTable>().Get( player.Client );
+					player.Data.Money += 100;
+					break;
+				}
+				case "pc":
+				{
+					var tr = Trace.Ray( player.AimRay, 256f )
+					.Size( 1.0f )
+					.Ignore( player )
+					.Run();
+
+					if ( tr.Hit )
+						_ = new Computer()
+						{
+							Position = tr.EndPosition + Vector3.Up * 45f
+						};
+
 					break;
 				}
 			}

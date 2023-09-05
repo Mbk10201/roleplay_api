@@ -1,0 +1,33 @@
+PageDesktop {
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding: 5px;
+    color: white;
+    background-image: url("ui/images/computer/desktop.jpg");
+    background-size: cover;
+    transition: all 0.2s ease-in;
+    gap: 5px;
+
+    app {
+        padding: 2px;
+        border-radius: 2px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.2s ease;
+        font-size: 5px;
+        height:32px;
+        width:40px;
+
+        iconify {
+            height: 16px;
+            width: 16px;
+        }
+
+        &:hover {
+            background-color: rgba(25, 25, 25, 0.85);
+        }
+    }
+}

@@ -1,0 +1,34 @@
+@using Mbk.RoleplayAPI.Player;
+
+@inherits Panel
+@attribute [StyleSheet]
+@namespace Mbk.RoleplayAPI.Systems.Computer
+
+<root>
+    <div class="content">
+        <div class="software">
+            <iconify name="material-symbols:settings-rounded"></iconify>
+            Settings
+        </div>
+    </div>
+    <footer>
+        <div>
+            <div class="avatar" style="background-image: url(avatar:@Player.Client.SteamId);"></div>
+            <span style="font-size:5px;">@Player.Client.Name</span>
+        </div>
+        <button onclick=@ScreenPanel.Instance.Shutdown>
+            <iconify name="ic:twotone-power-settings-new" style="color:white;"></iconify>
+        </button>
+    </footer>
+</root>
+
+@code {
+    public RoleplayPlayer Player => Game.LocalClient.Pawn as RoleplayPlayer;
+
+    /*protected override void OnMouseOut(MousePanelEvent e)
+    {
+        base.OnMouseOut(e);
+
+        Delete();
+    }*/
+}

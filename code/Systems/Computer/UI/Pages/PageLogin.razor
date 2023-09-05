@@ -1,0 +1,46 @@
+﻿@using Mbk.RoleplayAPI.Models.Enums;
+@using Mbk.RoleplayAPI.Player;
+@using Mbk.RoleplayAPI.UI.Shared.AlertSystem;
+@using Sandbox.UI;
+@using Sandbox;
+@using System;
+
+@inherits Panel
+@attribute [StyleSheet]
+@namespace Mbk.RoleplayAPI.Systems.Computer
+
+<root>
+    <div class="avatar" style="background-image: url(avatar:@Player.Client.SteamId)"></div>
+    <div style="gap:5px;align-items:center;">
+        <span style="opacity:0.1;font-size:10px;">Bienvenue,</span>
+        <span style="font-size:15px;">@Player.Client.Name</span>
+    </div>
+    <button onclick=@Login>
+        Login 
+        <iconify name="material-symbols:login"></iconify>
+    </button>
+</root>
+
+@code {
+    public RoleplayPlayer Player => Game.LocalClient.Pawn as RoleplayPlayer;
+    public static PageLogin Instance { get; private set; }
+
+    public PageLogin()
+    {
+        Instance = this;
+    }
+
+    async Task Login()
+    {
+        var loader = ScreenPanel.Instance.AddChild<Loader>();
+        await GameTask.DelayRealtimeSeconds(2.5f);
+        loader.Delete();
+        Delete(true);
+        ScreenPanel.Instance.AddChild<Navigator>();
+    }
+
+    protected override int BuildHash()
+    {
+        return HashCode.Combine(DateTime.Now);
+    }
+}

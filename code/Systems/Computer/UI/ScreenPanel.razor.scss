@@ -1,0 +1,22 @@
+ScreenPanel {
+    height: 100%;
+    width: 100%;
+    pointer-events: all;
+    transition: all 0.5s ease-in;
+    transform: scale( 1 );
+    //border-radius:2px;
+    //overflow:hidden;
+    border: 2px solid black;
+
+    &:intro {
+        transform: scale( 0 );
+    }
+
+    &:outro {
+        transform: scale( 0 );
+    }
+
+    i {
+        font-family: MaterialIcons;
+    }
+}

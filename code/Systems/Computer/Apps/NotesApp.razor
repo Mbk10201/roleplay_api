@@ -1,0 +1,112 @@
+@inherits Panel
+@attribute [StyleSheet]
+@implements IComputerApp
+
+@namespace Mbk.RoleplayAPI.Systems.Computer
+
+<root>
+    <div class="header">
+        <button class="add" onclick=@Add><iconify name="material-symbols:add-notes-rounded"></iconify></button>
+        <button class="save" onclick=@Save><iconify name="carbon:save"></iconify></button>
+        <button class="trash @(CurrentNote != null && !CurrentNote.Saved ? "disabled" : "")" onclick=@Trash><iconify name="ic:baseline-delete"></iconify></button>
+        <button class="erase" onclick=@Erase><iconify name="mdi:eraser"></iconify></button>
+    </div>
+    <div class="body">
+        <div class="left">
+            @foreach( var note in Notes )
+            {
+                <div class="note @(CurrentNote == note ? "active" : "")" onclick=@(()=> CurrentNote = note)>
+                    <div class="dot @(note.Saved ? "hidden" : "")"></div>
+                    @note.Content.Substring(0, 10)
+                </div>
+            }
+        </div>
+
+        <div class="right">
+            @if( CurrentNote == null )
+            {
+                <div style="height:100%;width:100%;justify-content:center;align-items:center;">
+                    No note selected
+                </div>
+            }
+            else
+            {
+                <TextEntry @ref="CurrentNote.Entry" Value=@CurrentNote.Content AllowEmojiReplace=@true OnTextEdited=@OnNoteChanged></TextEntry>
+            }
+        </div>
+    </div>
+</root>
+
+@code {
+    public string AppName => "Notes";
+    public string Icon => "noto:spiral-notepad";
+    public string IconColor => "";
+    public string WindowName => "Notes";
+    public bool Fullscreen => true;
+    public Note CurrentNote { get; set; }
+
+    public List<Note> Notes { get; set; }
+
+    public NotesApp()
+    {
+        Notes = new()
+        {
+            CurrentNote 
+        };
+    }
+
+    public class Note
+    {
+        public string Content { get; set; }
+        public DateTime Date { get; set; }
+        public bool Saved { get; set; }
+        [JsonIgnore] public TextEntry Entry { get; set; }
+
+        public void Save()
+        {
+            Saved = true;
+        }
+    }
+
+    void Add()
+    {
+        var newnote = new Note()
+        {
+            Content = "Write your notes here."
+        };
+
+        Notes.Add(newnote);
+    }
+
+    void Save()
+    {
+        if ( CurrentNote.Entry.Text == "" || CurrentNote.Saved )
+            return;
+
+        CurrentNote.Content = CurrentNote.Entry.Text;
+        CurrentNote.Save();
+    }
+
+    void Trash()
+    {
+
+    }
+
+    void Erase()
+    {
+        if (CurrentNote.Entry is null)
+            return;
+
+        CurrentNote.Entry.Text = "";
+    }
+
+    void OnNoteChanged(string value)
+    {
+        CurrentNote.Saved = false;
+    }
+
+    protected override int BuildHash()
+    {
+        return HashCode.Combine(DateTime.Now);
+    }
+}

@@ -1,0 +1,34 @@
+﻿@using Sandbox;
+@using Sandbox.UI;
+
+@inherits WorldPanel
+@attribute [StyleSheet]
+@namespace Mbk.RoleplayAPI.Systems.Computer
+
+<root>
+</root>
+
+@code
+{
+    public static ScreenPanel Instance { get; private set; }
+    public Computer Entity { get; private set; }
+
+    public ScreenPanel(Computer entity)
+    {
+        Instance = this;
+        Entity = entity;
+        AddChild<PageLogin>();
+
+        SetSettings();
+    }
+
+    void SetSettings()
+    {
+        PanelBounds = new Rect(-373.5f, -217, 741.5f, 418);
+    }
+
+    public async Task Shutdown()
+    {
+        
+    }
+}

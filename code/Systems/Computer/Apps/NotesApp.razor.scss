@@ -1,0 +1,113 @@
+NotesApp {
+    height: 100%;
+    width: 100%;
+    padding: 10px;
+    background-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+    flex-direction: column;
+    gap: 10px;
+
+    .header {
+        height: 15%;
+        padding: 2px;
+        background-color: rgba(25, 25, 25, 0.8);
+        border-radius: 5px;
+        gap: 10px;
+
+        button {
+            height: 100%;
+            padding: 2px;
+            transition: all 0.2s ease-in;
+
+            &.disabled {
+                pointer-events: none;
+            }
+
+            iconify {
+                height: 12px;
+                width: 12px;
+            }
+
+            &.add {
+                &:hover {
+                    border-bottom: 2px solid rgba(dodgerblue, 1);
+                }
+            }
+
+            &.save {
+                &:hover {
+                    border-bottom: 2px solid rgba(0, 200, 0, 1);
+                }
+            }
+
+            &.trash {
+                &:hover {
+                    border-bottom: 2px solid rgba(200, 0, 0, 1);
+                }
+            }
+
+            &.erase {
+                &:hover {
+                    border-bottom: 2px solid rgba(yellow, 1);
+                }
+            }
+        }
+    }
+
+    .body {
+        height: 85%;
+        gap: 10px;
+
+        .left {
+            height: 100%;
+            width: 25%;
+            padding: 5px;
+            border-radius: 5px;
+            background-color: rgba(25, 25, 25, 0.5);
+            flex-direction: column;
+            gap: 5px;
+
+            .note {
+                width: 100%;
+                border-radius: 2px;
+                padding: 2px;
+                align-items: center;
+                justify-content: center;
+                background-color: rgba(25, 25, 25, 0.8);
+                transition: all 0.2s ease-in;
+
+                .dot {
+                    position: absolute;
+                    left: 5px;
+                    height: 2px;
+                    width: 2px;
+                    border-radius: 100%;
+                    background-color: white;
+                }
+
+                &:hover {
+                    background-color: rgba(25, 25, 25, 0.99);
+                }
+
+                &.active {
+                    background-color: rgba(74, 201, 155, .4);
+                }
+            }
+        }
+
+        .right {
+            height: 100%;
+            width: 75%;
+            flex-wrap: wrap;
+            flex-direction: column;
+            border-radius: 5px;
+            background-color: rgba(25, 25, 25, 0.5);
+
+            TextEntry {
+                height: 100%;
+                width: 100%;
+                align-items: flex-start;
+                white-space: normal;
+            }
+        }
+    }
+}

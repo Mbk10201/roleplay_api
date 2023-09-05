@@ -1,0 +1,69 @@
+@inherits Panel
+@attribute [StyleSheet]
+
+@namespace Mbk.RoleplayAPI.Systems.Computer
+
+<root>
+    <topbar>
+        <div style="align-items:center;gap:5px;">
+            <iconify name=@WindowInstance.Icon style="height:10px;"></iconify>
+            <span class="name">@WindowInstance.WindowName</span>
+        </div>
+        <div class="actions">
+            <button onclick=@Minimize>
+                <iconify name="material-symbols:chrome-minimize"></iconify>
+            </button>
+            <button onclick=@Small>
+                <iconify name="cil:window-restore"></iconify>
+            </button>
+            <button onclick=@Close>
+                <iconify name="clarity:close-line"></iconify>
+            </button>
+        </div>
+    </topbar>
+</root>
+
+@code {
+    public IWindow WindowInstance { get; private set; }
+    public bool Minimized { get; set; }
+    bool Smalled = false;
+    Length DefaultHeight { get; set; }
+
+    public Window( IWindow window )
+    {
+        WindowInstance = window;
+
+        var panel = window as Panel;
+
+        if (panel == null)
+            return;
+
+        Parent = Navigator.Instance;
+
+        AddChild(panel);
+
+        DefaultHeight = (window.Fullscreen ? Length.Percent(100).Value : Length.Percent(90).Value);
+
+        Style.Height = DefaultHeight;
+    }
+
+    public void Minimize()
+    {
+        Minimized = !Minimized;
+        SetClass("minimized", Minimized);
+    }
+
+    void Small()
+    {
+        Smalled = !Smalled;
+
+        SetClass("smalled", Smalled);
+        Style.Height = (Smalled ? Length.Percent(50) : DefaultHeight);
+        Style.Width = (Smalled ? Length.Percent(75) : Length.Percent(100));
+    }
+
+    void Close()
+    {
+        Delete();
+    }
+}

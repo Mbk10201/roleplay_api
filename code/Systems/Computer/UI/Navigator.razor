@@ -1,0 +1,56 @@
+﻿@using Mbk.RoleplayAPI.World;
+@using Sandbox;
+@using Sandbox.UI;
+@using System;
+@using System.Linq;
+@using System.Collections.Generic;
+
+@inherits NavigatorPanel
+@attribute [StyleSheet]
+@namespace Mbk.RoleplayAPI.Systems.Computer
+
+<root>
+    <div class="content" slot="navigator-canvas"></div>
+    <bar>
+        <div class="window" onclick=@OpenStarting>
+            <iconify name="material-symbols:window-sharp"></iconify>
+        </div>
+        <div class="tabs">
+            @foreach(var window in OpenedWindows)
+            {
+                <div class="tab @(!window.Minimized ? "opened" : "")" onclick=@window.Minimize>
+                    <iconify name=@window.WindowInstance.Icon></iconify>
+                </div>
+            }
+        </div>
+        <div class="time">
+            <span>@WeatherSystem.GetTime()</span>
+            <span>@WeatherSystem.Instance.Day/@WeatherSystem.Instance.Month/@WeatherSystem.Instance.Year</span>
+        </div>
+    </bar>
+</root>
+
+@code {
+    public static Navigator Instance { get; private set; }
+    public ICollection<Window> OpenedWindows => ChildrenOfType<Window>().ToList();
+    StartMenu StartMenuInstance { get; set; }
+
+    public Navigator()
+    {
+        Instance = this;
+        DefaultUrl = "/policecomputer/desktop";
+    }
+
+    void OpenStarting()
+    {
+        if (StartMenuInstance != null)
+            StartMenuInstance.Delete();
+        else
+            StartMenuInstance = AddChild<StartMenu>();
+    }
+
+    protected override int BuildHash()
+    {
+        return HashCode.Combine(DateTime.Now);
+    }
+}

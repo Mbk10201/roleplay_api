@@ -1,0 +1,72 @@
+﻿@using Mbk.RoleplayAPI.Player;
+
+@inherits Panel
+@namespace Mbk.RoleplayAPI.Systems.Computer
+
+<root ondoubleclick=@OpenApp>
+    <iconify name=@AppRef.Icon></iconify>
+    <span style="align-items:center;justify-content:center;">@AppRef.AppName</span>
+</root>
+
+@code {
+    RoleplayPlayer Player => Game.LocalClient.Pawn as RoleplayPlayer;
+    public IComputerApp AppRef { get; set; }
+    RealTimeSince LastClick = 0f;
+    bool IsOpening = false;
+    bool Drag = false;
+
+
+    void OpenApp()
+    {
+        if (!IsOpening)
+        {
+            IsOpening = true;
+            Computer.OpenWindow(AppRef);
+            Sound.FromScreen(To.Single(Player), "computer.doubleclick");
+            return;
+        }
+    }
+
+    public override void Tick()
+    {
+        base.Tick();
+
+        if (LastClick > 1.5f)
+        {
+            LastClick = 0f;
+            IsOpening = false;
+        }
+
+       /*if (Drag)
+            UpdatePosition();*/
+    }
+
+    public void UpdatePosition()
+    {
+        Log.Info(Player.WorldInput.Ray);
+        
+        Style.Left = Length.Pixels(Player.WorldInput.Ray.Forward.x * ScaleFromScreen / ScreenPanel.Instance.PanelBounds.Position.x);
+        Style.Top = Length.Pixels(Player.WorldInput.Ray.Forward.y * ScaleFromScreen / ScreenPanel.Instance.PanelBounds.Position.y);
+    }
+
+    protected override void OnMouseDown(MousePanelEvent e)
+    {
+        if (e.Button == "mouseright")
+            return;
+
+        Drag = true;
+        //Style.Position = PositionMode.Absolute;
+        base.OnMouseDown(e);
+    }
+
+    protected override void OnMouseUp(MousePanelEvent e)
+    {
+        Drag = false;
+        base.OnMouseUp(e);
+    }
+
+    protected override int BuildHash()
+    {
+        return HashCode.Combine(DateTime.Now, Style.Left, Style.Top);
+    }
+}

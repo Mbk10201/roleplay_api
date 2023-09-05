@@ -1,0 +1,55 @@
+PageLogin {
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    transition: all 0.5s ease-in;
+    transform: scale( 1 );
+    background-color: #222;
+    background-image: url("ui/images/computer/login.webp");
+    background-size: cover;
+    background-color: red;
+
+    &:intro {
+        transform: scale( 0 );
+    }
+
+    &:outro {
+        transform: scale( 0 );
+    }
+
+    .gradient {
+        background-image: linear-gradient(hsl(158, 82, 57, 85%), hsl(252, 82, 57));
+    }
+
+    .avatar {
+        height: 64px;
+        width: 64px;
+        background-repeat: no-repeat;
+        background-size: cover;
+        border-radius: 100%;
+        margin-bottom: 10px;
+    }
+
+    iconify {
+        height: 24px;
+        width: 24px;
+    }
+
+    button {
+        position: absolute;
+        bottom: 5px;
+        border-radius: 5px;
+        padding: 5px 10px;
+        font-size: 10px;
+        align-items: center;
+        background-color: rgba(25, 25, 25,0.5);
+        transition: all 0.2s ease-in;
+
+        &:hover {
+            background-color: dodgerblue;
+        }
+    }
+}

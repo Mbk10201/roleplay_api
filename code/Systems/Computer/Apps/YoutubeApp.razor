@@ -1,0 +1,27 @@
+@inherits WebPanel
+@attribute [StyleSheet]
+@implements IComputerApp
+
+@namespace Mbk.RoleplayAPI.Systems.Computer
+
+<root>
+    
+</root>
+
+@code {
+    public string AppName => "YouTube";
+    public string Icon => "logos:youtube-icon";
+    public string IconColor => "";
+    public string WindowName => "YouTube";
+    public bool Fullscreen => false;
+
+    protected override void OnAfterTreeRender(bool firstTime)
+    {
+        base.OnAfterTreeRender(firstTime);
+
+        if (firstTime)
+        {
+            Surface.Url = "https://youtube.com/";
+        }
+    }
+}

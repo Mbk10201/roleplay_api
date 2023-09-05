@@ -1,0 +1,38 @@
+﻿@using Mbk.RoleplayAPI.Player;
+@using Sandbox.UI;
+@using Sandbox;
+@using System;
+
+@inherits Panel
+@attribute [StyleSheet]
+@page "/policecomputer/desktop"
+@namespace Mbk.RoleplayAPI.Systems.Computer
+
+<root>
+    @foreach (var app in Apps)
+    {
+        <App AppRef=@app></App>
+    }
+</root>
+
+@code {
+    RoleplayPlayer Player => Game.LocalClient.Pawn as RoleplayPlayer;
+    public List<IComputerApp> Apps { get; set; } = new();
+
+    public PageDesktop()
+    {
+        foreach (var type in TypeLibrary.GetTypes().Where(x => (x.IsClass)))
+        {
+            if (type.Interfaces.Count(x => x.Name == "IComputerApp") > 0)
+            {
+                var app = (IComputerApp)TypeLibrary.Create(type.TargetType.Name, type.TargetType);
+                Apps.Add(app);
+            }
+        }
+    }
+
+    protected override int BuildHash()
+    {
+        return HashCode.Combine(DateTime.Now);
+    }
+}

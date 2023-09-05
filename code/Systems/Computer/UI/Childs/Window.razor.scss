@@ -1,0 +1,64 @@
+Window {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    pointer-events: all;
+    cursor: pointer;
+    transition: all 0.5s ease-out;
+    transform: scale( 1 );
+    opacity: 1;
+    flex-direction: column;
+    
+
+    &:intro {
+        transform: scale( 0 );
+        opacity: 0;
+    }
+
+    &:outro {
+        transform: scale( 0 );
+        opacity: 0;
+    }
+
+    topbar {
+        height: 10%;
+        width: 100%;
+        padding: 5px;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #424549;
+
+        .actions {
+            position: absolute;
+            right:5px;
+            gap: 5px;
+
+            button {
+                height: 16px;
+                width: 16px;
+                padding: 5px;
+                border-radius: 2px;
+                transition: all 0.2s ease-in;
+
+                &:hover {
+                    background-color: rgba(25, 25, 25, 0.5);
+                }
+            }
+        }
+    }
+
+    &.smalled {
+        topbar {
+            button {
+                height: 8px;
+                width: 8px;
+                padding: 1px;
+            }
+        }
+    }
+
+    &.minimized {
+        transform: scale(0.05);
+        opacity: 0;
+    }
+}

@@ -1,0 +1,45 @@
+Loader {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(25, 25, 25, 0.8);
+    transition: all 0.5s ease-out;
+    opacity: 1;
+
+    &:intro {
+        opacity: 0;
+
+        svg {
+            transform: scale( 0 );
+        }
+    }
+
+    &:outro {
+        opacity: 0;
+
+        svg {
+            transform: scale( 0 );
+        }
+    }
+
+    svg {
+        height: 128px;
+        width: 128px;
+        animation-name: rotation;
+        animation-duration: 1s;
+        animation-timing-function: linear;
+        transform: scale( 1 );
+    }
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate( 0deg );
+    }
+
+    100% {
+        transform: rotate( 360deg );
+    }
+}

@@ -13,4 +13,16 @@ public partial class RoleplayPlayer
 	{
 		public OnFootstepAttribute() : base( OnFootstep ) { }
 	}
+
+	public const string OnAFK = "onafk";
+	public class OnAFKAttribute : EventAttribute
+	{
+		public OnAFKAttribute() : base( OnAFK ) { }
+	}
+
+	public const string OnUnAFK = "onunafk";
+	public class OnUnAFKAttribute : EventAttribute
+	{
+		public OnUnAFKAttribute() : base( OnUnAFK ) { }
+	}
 }

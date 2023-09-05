@@ -205,9 +205,172 @@ public partial class RoleplayPlayer
 		{
 			if ( marker.Position.Distance( position ) <= 100f )
 			{
-				Markers.Remove( marker );
+				Markers.Remove( marker ); 
 				break;
 			}
 		}
+	}
+
+	private void  CheckButtons()
+	{
+		string pressed = "";
+		
+		if ( Input.Down( "Left Click") )
+		{
+			pressed = "Left Click";
+		}
+
+		if ( Input.Down( "Right Click" ) )
+		{
+			pressed = "Right Click";
+		}
+
+		if ( Input.Down( "Reload" ) )
+		{
+			pressed = "Reload";
+		}
+
+		if ( Input.Down( "Use" ) )
+		{
+			pressed = "Use";
+		}
+
+		if ( Input.Down( "Drop" ) )
+		{
+			pressed = "Drop";
+		}
+
+		if ( Input.Down( "Slot0" ) )
+		{
+			pressed = "Slot0";
+		}
+
+		if ( Input.Down( "Slot1" ) )
+		{
+			pressed = "Slot1";
+		}
+
+		if ( Input.Down( "Slot2" ) )
+		{
+			pressed = "Slot2";
+		}
+
+		if ( Input.Down( "Slot3" ) )
+		{
+			pressed = "Slot3";
+		}
+
+		if ( Input.Down( "Slot4" ) )
+		{
+			pressed = "Slot4";
+		}
+
+		if ( Input.Down( "Slot5" ) )
+		{
+			pressed = "Slot5";
+		}
+
+		if ( Input.Down( "Slot6" ) )
+		{
+			pressed = "Slot6";
+		}
+
+		if ( Input.Down( "Slot7" ) )
+		{
+			pressed = "Slot7";
+		}
+
+		if ( Input.Down( "Slot8" ) )
+		{
+			pressed = "Slot8";
+		}
+
+		if ( Input.Down( "Slot9" ) )
+		{
+			pressed = "Slot9";
+		}
+
+		if ( Input.Down( "SlotPrev" ) )
+		{
+			pressed = "SlotPrev";
+		}
+
+		if ( Input.Down( "SlotNext" ) )
+		{
+			pressed = "SlotNext";
+		}
+
+		if ( Input.Down( "Forward" ) )
+		{
+			pressed = "Forward";
+		}
+
+		if ( Input.Down( "Backward" ) )
+		{
+			pressed = "Backward";
+		}
+
+		if ( Input.Down( "Left" ) )
+		{
+			pressed = "Left";
+		}
+
+		if ( Input.Down( "Right" ) )
+		{
+			pressed = "Right";
+		}
+
+		if ( Input.Down( "Jump" ) )
+		{
+			pressed = "Jump";
+		}
+
+		if ( Input.Down( "Run" ) )
+		{
+			pressed = "Run";
+		}
+
+		if ( Input.Down( "Walk" ) )
+		{
+			pressed = "Walk";
+		}
+
+		if ( Input.Down( "Duck" ) )
+		{
+			pressed = "Duck";
+		}
+
+		if ( Input.Down( "View" ) )
+		{
+			pressed = "View";
+		}
+
+		if ( Input.Down( "Voice" ) )
+		{
+			pressed = "Voice";
+		}
+
+		if ( Input.Down( "Tab" ) )
+		{
+			pressed = "Tab";
+		}
+
+		if ( Input.Down( "Menu" ) )
+		{
+			pressed = "Menu";
+		}
+
+		if ( Input.Down( "Chat" ) )
+		{
+			pressed = "Chat";
+		}
+
+		if ( Input.Down( "Inventory" ) )
+		{
+			pressed = "Inventory";
+		}
+
+		IsPressingButton = pressed != "";
+		IsPressingButtonName = pressed;
 	}
 }

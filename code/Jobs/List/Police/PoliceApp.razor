@@ -1,19 +1,27 @@
-@inherits Panel
+@inherits NavigatorPanel
 @attribute [StyleSheet]
 @implements IComputerApp
 
 @namespace Mbk.RoleplayAPI.Systems.Computer
 
 <root>
-    This application is currently on maintenance.
+    <div class="left">
+        <div class="sidenav">
+
+        </div>
+    </div>
+    <div class="right">
+        <div class="content" slot="navigator-canvas"></div>
+    </div>
 </root>
 
 @code {
     public string AppName => "Police";
+    public bool AppMultipleInstance => false;
     public string[] AppJobAccess => new string[]{"police"};
     public long[] AppRoleId => null;
     public string Icon => "twemoji:man-police-officer-medium-skin-tone";
     public string IconColor => "";
     public string WindowName => "Police Management";
-    public bool Fullscreen => true;
+    public bool Fullscreen => false;
 }

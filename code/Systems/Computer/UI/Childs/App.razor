@@ -20,6 +20,9 @@
     {
         if (!IsOpening)
         {
+            if (!AppRef.AppMultipleInstance && Navigator.Instance.OpenedWindows.OfType<Window>().Where(x => x.WindowInstance.WindowName == AppRef.WindowName).Any())
+                return;
+
             IsOpening = true;
             Computer.OpenWindow(AppRef);
             Sound.FromScreen(To.Single(Player), "computer.doubleclick");

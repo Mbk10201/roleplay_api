@@ -1,7 +1,43 @@
-SocialApp {
+PoliceApp {
     height: 100%;
     width: 100%;
-    background-color: #424549;
     justify-content: center;
     align-items: center;
+
+    background: rgba(155, 180, 121, 1.0);
+    background: linear-gradient(135deg, rgba(155, 180, 121, 1.0), rgba(2, 134, 106, 1.0));
+
+    .left {
+        height: 100%;
+        width: 20%;
+        padding: 5px;
+
+        .sidenav {
+            height: 100%;
+            width: 100%;
+            padding: 5px;
+            border-radius: 5px;
+            background-color: rgba(25, 25, 25, 0.95);
+            transition: all 0.5s ease-out;
+            border: 0.1px solid rgba(75, 75, 75, 0.35);
+            box-shadow: 0 2px 40px rgba(0,0,0,0.3);
+        }
+    }
+
+    .right {
+        height: 100%;
+        width: 80%;
+        padding: 5px;
+
+        .content {
+            height: 100%;
+            width: 100%;
+            padding: 5px;
+            border-radius: 5px;
+            background-color: rgba(25, 25, 25, 0.95);
+            transition: all 0.5s ease-out;
+            border: 0.1px solid rgba(75, 75, 75, 0.35);
+            box-shadow: 0 2px 40px rgba(0,0,0,0.3);
+        }
+    }
 }

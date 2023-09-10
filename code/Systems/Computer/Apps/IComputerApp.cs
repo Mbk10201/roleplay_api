@@ -11,6 +11,12 @@ public interface IComputerApp : IWindow
 	string AppName { get; }
 
 	/// <summary>
+	/// Can this app be opened more than once (Ex: Google)
+	/// (Required)
+	/// </summary>
+	bool AppMultipleInstance { get; }
+
+	/// <summary>
 	/// The jobs that has access to this app.
 	/// /// Use like : new string[]{"police", "hospital"}
 	/// (Optional)

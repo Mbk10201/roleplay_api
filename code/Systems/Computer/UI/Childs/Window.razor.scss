@@ -8,7 +8,7 @@ Window {
     transform: scale( 1 );
     opacity: 1;
     flex-direction: column;
-    
+    top:0;
 
     &:intro {
         transform: scale( 0 );

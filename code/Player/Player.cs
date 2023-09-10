@@ -6,6 +6,9 @@ using Mbk.RoleplayAPI.Models;
 using Sandbox;
 using Mbk.RoleplayAPI.Database;
 using Mbk.RoleplayAPI.Database.DTO;
+using Mbk.RoleplayAPI.UI.Shared.Chat;
+using Mbk.RoleplayAPI.UI.RootPanels;
+using Mbk.RoleplayAPI.Entities;
 
 namespace Mbk.RoleplayAPI.Player;
 
@@ -51,41 +54,12 @@ public partial class RoleplayPlayer : AnimatedEntity
 	public RoleplayPlayer()
 	{
 		Holster = new CarriableHolster( this );
-		Data = new UserDTO();
+		Data = new();
 
 		if ( Game.IsServer )
 		{
-			//_ = InitDatabase();
 			CreateInventories();
 		}
-	}
-
-	async Task InitDatabase()
-	{
-		var instance = Database.Database.Get<PlayerTable>();
-
-		Log.Info( instance );
-
-		if ( instance == null )
-			return;
-
-		foreach( var row in instance.Rows )
-		{
-			Log.Info( row.SteamId );
-		}
-
-		/*Log.Info( instance.Exist( Client.SteamId ) );
-
-		if ( !instance.Exist(Client.SteamId) )
-		{
-			await instance.Insert( new UserDTO()
-			{
-				SteamId = Client.SteamId,
-				Name = Client.Name
-			} );
-		}
-
-		Data = instance.Get( Client );*/
 	}
 
 	public void CreatePawn( IClient client )
@@ -93,6 +67,7 @@ public partial class RoleplayPlayer : AnimatedEntity
 		Game.AssertServer();
 
 		client.Pawn = this;
+		_ = InitDatabase();
 
 		Backpack.AddConnection( client );
 
@@ -100,8 +75,43 @@ public partial class RoleplayPlayer : AnimatedEntity
 		{
 			AddMapMarker( To.Single( client ), marker.Position, marker.Color );
 		}
+	}
 
-		Respawn();
+	async Task InitDatabase()
+	{
+		Game.AssertServer();
+
+		var instance = Database.Database.Get<PlayerTable>();
+
+		if ( instance == null )
+			return;
+
+		if ( !instance.Exist( Client.SteamId ) )
+		{
+			Log.Info( "Player not exist, Creating ..." );
+
+			await instance.Insert( new UserDTO()
+			{
+				SteamId = Client.SteamId,
+				Name = Client.Name
+			} );
+		}
+
+		var data = instance.Get( Client );
+		Data.FirstName = data.FirstName;
+		Data.LastName = data.LastName;
+		Data.Nationality = data.Nationality;
+		Data.Money = data.Money;
+		Data.Bank = data.Bank;
+		Data.Level = data.Level;
+		Data.XP = data.XP;
+		Data.JobId = data.JobId;
+		Data.GradeId = data.GradeId;
+		Data.Hunger = data.Hunger;
+		Data.Thirst = data.Thirst;
+		Data.HasBankCard = data.HasBankCard;
+		Data.HasBankDetails = data.HasBankDetails;
+		Data.IsNew = data.IsNew;
 	}
 
 	protected override void OnDestroy()
@@ -132,20 +142,12 @@ public partial class RoleplayPlayer : AnimatedEntity
 	/// </summary>
 	public override void Simulate( IClient cl )
 	{
+		if ( LifeState == LifeState.Dead )
+			return;
+
 		if ( ActiveChildInput.IsValid() && ActiveChildInput.Owner == this )
 		{
 			ActiveChild = ActiveChildInput;
-		}
-
-		if ( LifeState == LifeState.Dead )
-		{
-			if ( (float)TimeSinceDied > RoleplayAPI.Instance.Configuration.RespawnTime && Game.IsServer )
-			{
-				Respawn();
-				TimeSinceDied = 0f;
-			}
-
-			return;
 		}
 
 		var controller = GetActiveController();
@@ -160,6 +162,7 @@ public partial class RoleplayPlayer : AnimatedEntity
 		if ( Input.Pressed( "Drop" ) )
 		{
 			var dropped = Holster.DropActive();
+			Log.Info( dropped );
 			if ( dropped != null )
 			{
 				dropped.PhysicsGroup.ApplyImpulse( Velocity + EyeRotation.Forward * 500.0f + Vector3.Up * 100.0f, true );
@@ -212,6 +215,10 @@ public partial class RoleplayPlayer : AnimatedEntity
 
 		TickPlayerUse();
 		SimulateActiveChild( cl, ActiveChild );
+		CheckButtons();
+
+		if(Game.IsServer)
+			CheckAFK( cl );
 	}
 
 
@@ -300,10 +307,15 @@ public partial class RoleplayPlayer : AnimatedEntity
 	/// </summary>
 	public override void OnKilled()
 	{
-		GameManager.Current?.OnKilled( this );
+		//GameManager.Current?.OnKilled( this );
+
+		ShowDeathHud( To.Single( this ) );
+		StopUsing();
+		Ragdoll.From( this, Velocity, LastDamage.HasTag( "bullet" ), LastDamage.HasTag( "blast" ), LastDamage.HasTag( "physicsimpact" ), LastDamage.Position, LastDamage.Force, LastDamage.BoneIndex ).FadeOut( 10f );
 
 		LifeState = LifeState.Dead;
-		StopUsing();
+		EnableDrawing = false;
+		//Delete();
 	}
 
 
@@ -343,14 +355,17 @@ public partial class RoleplayPlayer : AnimatedEntity
 
 		GiveInitialItems();
 
-		Holster.Add( new PhysGun() );
+		/*Holster.Add( new PhysGun(), true );
 		Holster.Add( new Pistol() );
 		Holster.Add( new Fists(), true );
-		/*Holster.Add( new GravGun() );
+		Holster.Add( new GravGun() );
 		Holster.Add( new Flashlight() );
 		Holster.Add( new Keys() );
 		Holster.Add( new PhoneEntity() );
 		Holster.Add( new Wallet() );*/
+
+		if( Game.IsClient )
+			_ = new MainHud();
 	}
 
 	/// <summary>
@@ -402,14 +417,14 @@ public partial class RoleplayPlayer : AnimatedEntity
 		GetActiveController()?.BuildInput();
 
 		WorldInput.Ray = AimRay;
-		WorldInput.MouseLeftPressed = Input.Down( "left_click" );
-		WorldInput.MouseRightPressed = Input.Down( "right_click" );
+		WorldInput.MouseLeftPressed = Input.Down( "Left Click" );
+		WorldInput.MouseRightPressed = Input.Down( "Right Click" );
 		WorldInput.MouseScroll = Input.MouseWheel;
 
 		if ( WorldInput.Hovered != null )
 		{
-			Input.Clear( "left_click" );
-			Input.Clear( "right_click" );
+			Input.Clear( "Left Click" );
+			Input.Clear( "Right Click" );
 		}
 	}
 
@@ -528,6 +543,8 @@ public partial class RoleplayPlayer : AnimatedEntity
 
 		base.TakeDamage( info );
 
+		LastDamage = info;
+
 		this.ProceduralHitReaction( info );
 
 		//
@@ -626,6 +643,39 @@ public partial class RoleplayPlayer : AnimatedEntity
 			holder.SetActiveSlot( i, false );
 
 			break;
+		}
+	}
+
+	private void CheckAFK(IClient client)
+	{
+		if ( IsPressingButton )
+		{
+			TimeSinceAFK = 0f;
+		}
+
+		if ( IsPressingButton && IsAFK )
+		{
+			TimeSinceAFK = 0f;
+			IsAFK = false;
+			Chat.AddChat(To.Single( client ), "AFK System", "You are not AFK anymore !" );
+			HideAFKUI( To.Single( client ) );
+			Event.Run( OnUnAFK );
+			return;
+		}
+
+		if ( !IsPressingButton && !IsAFK && TimeSinceAFK >= RoleplayAPI.Instance.Configuration.AfkDelay )
+		{
+			IsAFK = true;
+			Chat.AddChat( To.Single( client ), "AFK System", "You are now AFK !" );
+			ShowAFKUI( To.Single( client ) );
+			Event.Run( OnAFK );
+			return;
+		}
+
+		if( TimeSinceAFK >= RoleplayAPI.Instance.Configuration.AfkDelayKick )
+		{
+			client.Kick();
+			AdminSystem.WriteLog( new LogKick( User.Get( client ), User.Get( client ), "Kicked for inactivity" ) );
 		}
 	}
 }

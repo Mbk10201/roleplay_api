@@ -3,6 +3,7 @@ using Mbk.Admin.UI.Alert;
 using Mbk.Discord;
 using Mbk.Discord.Attributes;
 using Mbk.Discord.Models;
+using Mbk.RoleplayAPI.UI.RootPanels;
 
 namespace Mbk.RoleplayAPI.Player;
 
@@ -211,7 +212,34 @@ public partial class RoleplayPlayer
 		}
 	}
 
-	private void  CheckButtons()
+	[ClientRpc]
+	public static void ShowAFKUI()
+	{
+		Game.RootPanel.AddChild<AfkPanel>();
+	}
+
+	[ClientRpc]
+	public static void HideAFKUI()
+	{
+		AfkPanel.Instance.Delete();
+	}
+
+	[ClientRpc]
+	public static void ShowDeathHud()
+	{
+		_ = new DeathHud();
+	}
+
+	[ClientRpc]
+	public static void InitializeRespawn( )
+	{
+		var player =  Game.LocalClient.Pawn as RoleplayPlayer;
+		player.TimeUntilRespawn = RoleplayAPI.Instance.Configuration.RespawnTime;
+
+		_ = new RespawnHud();
+	}
+
+	private void CheckButtons()
 	{
 		string pressed = "";
 		
@@ -219,158 +247,128 @@ public partial class RoleplayPlayer
 		{
 			pressed = "Left Click";
 		}
-
-		if ( Input.Down( "Right Click" ) )
+		else if ( Input.Down( "Right Click" ) )
 		{
 			pressed = "Right Click";
 		}
-
-		if ( Input.Down( "Reload" ) )
+		else if ( Input.Down( "Reload" ) )
 		{
 			pressed = "Reload";
 		}
-
-		if ( Input.Down( "Use" ) )
+		else if ( Input.Down( "Use" ) )
 		{
 			pressed = "Use";
 		}
-
-		if ( Input.Down( "Drop" ) )
+		else if ( Input.Down( "Drop" ) )
 		{
 			pressed = "Drop";
 		}
-
-		if ( Input.Down( "Slot0" ) )
+		else if ( Input.Down( "Slot0" ) )
 		{
 			pressed = "Slot0";
 		}
-
-		if ( Input.Down( "Slot1" ) )
+		else if ( Input.Down( "Slot1" ) )
 		{
 			pressed = "Slot1";
 		}
-
-		if ( Input.Down( "Slot2" ) )
+		else if ( Input.Down( "Slot2" ) )
 		{
 			pressed = "Slot2";
 		}
-
-		if ( Input.Down( "Slot3" ) )
+		else if ( Input.Down( "Slot3" ) )
 		{
 			pressed = "Slot3";
 		}
-
-		if ( Input.Down( "Slot4" ) )
+		else if ( Input.Down( "Slot4" ) )
 		{
 			pressed = "Slot4";
 		}
-
-		if ( Input.Down( "Slot5" ) )
+		else if ( Input.Down( "Slot5" ) )
 		{
 			pressed = "Slot5";
 		}
-
-		if ( Input.Down( "Slot6" ) )
+		else if ( Input.Down( "Slot6" ) )
 		{
 			pressed = "Slot6";
 		}
-
-		if ( Input.Down( "Slot7" ) )
+		else if ( Input.Down( "Slot7" ) )
 		{
 			pressed = "Slot7";
 		}
-
-		if ( Input.Down( "Slot8" ) )
+		else if ( Input.Down( "Slot8" ) )
 		{
 			pressed = "Slot8";
 		}
-
-		if ( Input.Down( "Slot9" ) )
+		else if ( Input.Down( "Slot9" ) )
 		{
 			pressed = "Slot9";
 		}
-
-		if ( Input.Down( "SlotPrev" ) )
+		else if ( Input.Down( "SlotPrev" ) )
 		{
 			pressed = "SlotPrev";
 		}
-
-		if ( Input.Down( "SlotNext" ) )
+		else if ( Input.Down( "SlotNext" ) )
 		{
 			pressed = "SlotNext";
 		}
-
-		if ( Input.Down( "Forward" ) )
+		else if ( Input.Down( "Forward" ) )
 		{
 			pressed = "Forward";
 		}
-
-		if ( Input.Down( "Backward" ) )
+		else if ( Input.Down( "Backward" ) )
 		{
 			pressed = "Backward";
 		}
-
-		if ( Input.Down( "Left" ) )
+		else if ( Input.Down( "Left" ) )
 		{
 			pressed = "Left";
 		}
-
-		if ( Input.Down( "Right" ) )
+		else if ( Input.Down( "Right" ) )
 		{
 			pressed = "Right";
 		}
-
-		if ( Input.Down( "Jump" ) )
+		else if ( Input.Down( "Jump" ) )
 		{
 			pressed = "Jump";
 		}
-
-		if ( Input.Down( "Run" ) )
+		else if ( Input.Down( "Run" ) )
 		{
 			pressed = "Run";
 		}
-
-		if ( Input.Down( "Walk" ) )
+		else if ( Input.Down( "Walk" ) )
 		{
 			pressed = "Walk";
 		}
-
-		if ( Input.Down( "Duck" ) )
+		else if ( Input.Down( "Duck" ) )
 		{
 			pressed = "Duck";
 		}
-
-		if ( Input.Down( "View" ) )
+		else if ( Input.Down( "View" ) )
 		{
 			pressed = "View";
 		}
-
-		if ( Input.Down( "Voice" ) )
+		else if ( Input.Down( "Voice" ) )
 		{
 			pressed = "Voice";
 		}
-
-		if ( Input.Down( "Tab" ) )
+		else if ( Input.Down( "Tab" ) )
 		{
 			pressed = "Tab";
 		}
-
-		if ( Input.Down( "Menu" ) )
+		else if ( Input.Down( "Menu" ) )
 		{
 			pressed = "Menu";
 		}
-
-		if ( Input.Down( "Chat" ) )
+		else if ( Input.Down( "Chat" ) )
 		{
 			pressed = "Chat";
 		}
-
-		if ( Input.Down( "Inventory" ) )
+		else if ( Input.Down( "Inventory" ) )
 		{
 			pressed = "Inventory";
 		}
 
-		IsPressingButton = pressed != "";
+		IsPressingButton = pressed != "" || Mouse.Delta != 0f;
 		IsPressingButtonName = pressed;
 	}
 }

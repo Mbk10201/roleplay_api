@@ -1,0 +1,41 @@
+AfkPanel {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(25, 25, 25, 0.8);
+    opacity: 1;
+    transition: all 2s ease-out;
+    transform: scale( 1 );
+    padding: 250px;
+    color: white;
+    align-items: center;
+    flex-direction: column;
+    font-family: Poppins;
+
+    .title {
+        gap: 10px;
+        gap: 10px;
+        font-weight: 700;
+        font-size: 70px;
+    }
+
+    .countdown {
+        gap: 5px;
+        align-items: center;
+
+        .counter {
+            font-size: 20px;
+            font-weight: 700;
+            color: #39ffa0;
+        }
+    }
+
+    &:intro {
+        opacity: 0;
+        padding: 0px;
+    }
+
+    &:outro {
+        opacity: 0;
+        padding: 0px;
+    }
+}

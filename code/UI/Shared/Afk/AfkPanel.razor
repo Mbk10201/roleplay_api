@@ -1,0 +1,32 @@
+﻿@using Mbk.RoleplayAPI.Player;
+@using Mbk.RoleplayAPI;
+@inherits Panel
+@attribute [StyleSheet]
+
+<root>
+    <div class="title">
+        <span>You are </span>
+        <span style="color:orangered;">AFK</span>
+     </div>
+    <div class="countdown">
+        Kicked in 
+        <span class="counter">@Countdown.Relative.ToString("0.00")</span>
+        Seconds
+    </div>
+</root>
+
+@code {
+    public static AfkPanel Instance { get; private set; }
+    TimeUntil Countdown { get; set; }
+
+    public AfkPanel()
+    {
+        Instance = this;
+        Countdown = RoleplayAPI.Instance.Configuration.AfkDelayKick;
+    }
+
+    protected override int BuildHash()
+    {
+        return HashCode.Combine(Countdown.Relative);
+    }
+}

@@ -15,9 +15,10 @@
     "local.base",
     "mbk.discord_api",
     "mbk.admin",
-    "mbk.logs",
     "local.menu",
-    "mbk.vehicles"
+    "mbk.vehicles",
+    "alex.iconify",
+    "mbk.taiga_ui"
   ],
   "EditorReferences": null,
   "Metadata": {

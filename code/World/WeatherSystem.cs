@@ -23,7 +23,7 @@ public partial class WeatherSystem : Entity
 	/// The day number
 	/// </summary>
 	[Net, Change]
-	public ushort Day { get; set; }
+	public ushort Day { get; set; } = 1;
 
 	/// <summary>
 	/// The first digits of the hours

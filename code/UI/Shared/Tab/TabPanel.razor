@@ -2,6 +2,7 @@
 @attribute [StyleSheet]
 @implements ITabPanel
 @namespace Mbk.RoleplayAPI.UI.Shared.Tab
+@using Mbk.RoleplayAPI.Player;
 
 
 <root class=@(IsOpen ? "open" : "closed")>
@@ -17,6 +18,12 @@
             @foreach(var player in Game.Clients)
             {
                 <div class="player">
+                    @if( (player.Pawn as RoleplayPlayer).IsAFK )
+                    {
+                        <div class="afk">
+                            <iconify name="mdi:sleep"></iconify>
+                        </div>
+                    }
                     <span>
                         <img class="avatar" src="avatar:@player.SteamId" />
                     </span>

@@ -10,7 +10,6 @@ TabPanel {
     color: white;
     font-family: Poppins;
     pointer-events: all;
-   
     transition: all 0.2s ease-in;
     transform: scale( 1 );
 
@@ -74,6 +73,20 @@ TabPanel {
                 padding: 10px;
                 border-radius: 5px;
 
+                .afk {
+                    position: absolute;
+                    left: 25px;
+
+                    iconify {
+                        height: 22px;
+                        width: 22px;
+                        transition: all 0.2s ease-in;
+
+                        //animation-name: animate1;
+                        //animation-duration: 7s;
+                    }
+                }
+
                 .avatar {
                     height: 40px;
                     width: 40px;
@@ -112,5 +125,23 @@ TabPanel {
                 }
             }
         }
+    }
+}
+
+@keyframes animate1 {
+    0% {
+        color: red;
+    }
+
+    25% {
+        color: yellow;
+    }
+
+    50% {
+        color: blue;
+    }
+
+    100% {
+        color: green;
     }
 }

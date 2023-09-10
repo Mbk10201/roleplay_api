@@ -2,7 +2,13 @@
 
 public partial class JobSystem
 {
-	public static string GetJobName( string identifier )
+	/*public static string GetJobName( string identifier )
+	{
+		var job = Instance.Jobs.SingleOrDefault( job => job.Identifier == identifier );
+		return (job != null ? job.Name : "Unknown");
+	}*/
+
+	public static string GetJobName( string identifier ) 
 	{
 		var job = Instance.Jobs.SingleOrDefault( job => job.Identifier == identifier );
 		return (job != null ? job.Name : "Unknown");

@@ -8,6 +8,7 @@ using Mbk.RoleplayAPI.Jobs.List;
 using Mbk.RoleplayAPI.Player;
 using Mbk.RoleplayAPI.UI.Shared.AlertSystem;
 using Mbk.RoleplayAPI.UI.Shared.Chat;
+using Mbk.RoleplayAPI.World;
 
 namespace Mbk.RoleplayAPI.Jobs;
 
@@ -21,17 +22,18 @@ public partial class JobSystem : Entity
 
 	public JobSystem()
 	{
-		if ( RoleplayAPI.Debug() )
-			Log.Info( "JobSystem - Initialize" );
-
 		Instance = this;
-		Log.Info( $"New JobSystem ({Instance})" );
-		Transmit = TransmitType.Always;
 
 		if ( Game.IsServer )
 			Configure();
 	}
-	
+
+	public override void Spawn()
+	{
+		Transmit = TransmitType.Always;
+		base.Spawn();
+	}
+
 	public void Configure()
 	{
 		Jobs = new List<Job>()
@@ -166,6 +168,12 @@ public partial class JobSystem : Entity
 
 		if( query.Spawns.Count != 0 && vec != Vector3.Zero)
 			player.Position = vec;
+	}
+
+	[WeatherSystem.OnNewDay]
+	public void OnNewDay(ushort day)
+	{
+		GiveSalary();
 	}
 
 	public static void GiveSalary()

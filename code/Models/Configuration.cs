@@ -12,7 +12,7 @@ public partial class Configuration : BaseNetworkable
 	public bool DebugMode { get; set; }
 
 	[Net, Description( "The respawn time." )]
-	public float RespawnTime { get; set; } = 2f;
+	public float RespawnTime { get; set; } = 25f;
 
 	[Net, Description( "Chat command prefix, Default !." )]
 	public char ChatCommandPrefix { get; set; } = '!';
@@ -21,5 +21,8 @@ public partial class Configuration : BaseNetworkable
 	public string AlertSound { get; set; } = "ui.success";
 
 	[Net, Description("Time delay of when a player will become afk.")]
-	public float AfkDelay { get; set; } = 300f;
+	public float AfkDelay { get; set; } = 1000f;
+
+	[Net, Description( "Time delay of when a player will be kicked after too long AFK" )]
+	public float AfkDelayKick { get; set; } = 120f;
 }

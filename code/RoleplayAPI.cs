@@ -12,6 +12,8 @@ namespace Mbk.RoleplayAPI;
 public partial class RoleplayAPI : Entity
 {
 	public static RoleplayAPI Instance { get; private set; }
+	private static BaseFileSystem fs => FileSystem.Data;
+	const string CONFFILE = "roleplay_cfg.json";
 
 	[Net]
 	public Configuration Configuration { get; set; }
@@ -21,26 +23,31 @@ public partial class RoleplayAPI : Entity
 	public RoleplayAPI()
 	{
 		Instance = this;
-		Configuration = new Configuration();
-
-		bool Exists = FileSystem.Data.FileExists( "configuration.json" );
 
 		if ( Game.IsServer )
 		{
 			Event.Run( OnServerInit );
 
+			Configuration = new()
+			{
+				DebugMode = true
+			};
+
+			if ( fs.FileExists(CONFFILE) )
+			{
+				Configuration = fs.ReadJsonOrDefault<Configuration>( CONFFILE, new Configuration() );
+			}
+			else
+				fs.WriteJson( CONFFILE, Configuration );
+
 			_ = new JobSystem();
-			InventorySystem.Initialize();
 			Database.Database.Initialize();
+			InventorySystem.Initialize();
 
 			ItemTag.Register( "deployable", "Deployable", ItemColors.Deployable );
 			ItemTag.Register( "consumable", "Consumable", ItemColors.Consumable );
 			ItemTag.Register( "tool", "Tool", ItemColors.Tool );
 
-			if ( Exists )
-			{
-				Configuration = FileSystem.Data.ReadJson<Configuration>( "configuration.json" );
-			}
 		}
 
 		if ( Game.IsClient )
@@ -60,7 +67,7 @@ public partial class RoleplayAPI : Entity
 			}*/
 
 			Game.RootPanel?.Delete();
-			_ = new MainHud();
+			_ = new WelcomeHud();
 			Event.Run( OnAfterRender );
 		}
 
@@ -97,6 +104,15 @@ public partial class RoleplayAPI : Entity
 	[ConCmd.Server]
 	public static void SaveConfiguration()
 	{
-		FileSystem.Data.WriteJson( "configuration.json", Instance.Configuration);
+		fs.WriteJson( CONFFILE, Instance.Configuration);
+	}
+
+	[ConCmd.Server]
+	public static void InitializeRespawn()
+	{
+		var pawn = ConsoleSystem.Caller.Pawn as RoleplayPlayer;
+		pawn.TimeUntilRespawn = Instance.Configuration.RespawnTime;
+
+		RoleplayPlayer.InitializeRespawn( To.Single( ConsoleSystem.Caller ) );
 	}
 }

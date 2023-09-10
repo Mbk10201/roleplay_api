@@ -2,6 +2,7 @@
 @using Sandbox.UI;
 @using Sandbox;
 @using System;
+@using Mbk.Admin;
 
 @inherits Panel
 @attribute [StyleSheet]
@@ -26,6 +27,35 @@
             if (type.Interfaces.Count(x => x.Name == "IComputerApp") > 0)
             {
                 var app = (IComputerApp)TypeLibrary.Create(type.TargetType.Name, type.TargetType);
+
+                if( app.AppJobAccess != null )
+                {
+                    int count = 0;
+
+                    for (int i = 0; i < app.AppJobAccess.Length; i++)
+                    {
+                        if (Player.Data.JobId == app.AppJobAccess[i])
+                            count++;
+                    }
+
+                    if (count == 0)
+                        continue;
+                }
+
+                if (app.AppRoleId != null)
+                {
+                    int count = 0;
+
+                    for (int i = 0; i < app.AppRoleId.Length; i++)
+                    {
+                        if (Player.Client.GetRoles().Contains(app.AppRoleId[i]))
+                            count++;
+                    }
+
+                    if (count == 0)
+                        continue;
+                }
+
                 Apps.Add(app);
             }
         }

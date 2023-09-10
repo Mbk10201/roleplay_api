@@ -13,12 +13,21 @@
     </div>
     <div class="body">
         <div class="left">
-            @foreach( var note in Notes )
+            @if (Notes.Count == 0)
             {
-                <div class="note @(CurrentNote == note ? "active" : "")" onclick=@(()=> CurrentNote = note)>
-                    <div class="dot @(note.Saved ? "hidden" : "")"></div>
-                    @note.Content.Substring(0, 10)
+                <div style="height:100%;width:100%;justify-content:center;align-items:center;transform: rotate(-90deg);">
+                    EMPTY
                 </div>
+            }
+            else
+            {
+                @foreach (var note in Notes)
+                {
+                    <div class="note @(CurrentNote == note ? "active" : "")" onclick=@(()=> CurrentNote = note)>
+                        <div class="dot @(note.Saved ? "hidden" : "")"></div>
+                        @note.Content.Substring(0, 10)
+                    </div>
+                }
             }
         </div>
 
@@ -39,6 +48,8 @@
 
 @code {
     public string AppName => "Notes";
+    public string[] AppJobAccess => null;
+    public long[] AppRoleId => null;
     public string Icon => "noto:spiral-notepad";
     public string IconColor => "";
     public string WindowName => "Notes";
@@ -49,10 +60,7 @@
 
     public NotesApp()
     {
-        Notes = new()
-        {
-            CurrentNote 
-        };
+        Notes = new();
     }
 
     public class Note
@@ -89,7 +97,8 @@
 
     void Trash()
     {
-
+        Notes.Remove(CurrentNote);
+        CurrentNote = null;
     }
 
     void Erase()

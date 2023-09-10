@@ -1,0 +1,46 @@
+@inherits RootPanel
+@attribute [StyleSheet]
+@namespace Mbk.RoleplayAPI.UI.RootPanels
+@using Mbk.RoleplayAPI.Player;
+
+<root>
+    <div class="title">
+        You are going to respawn
+    </div>
+    <div class="countdown">
+        In
+        <span class="counter">@Player.TimeUntilRespawn.Relative.ToString("0.00")</span>
+        Seconds
+    </div>
+</root>
+
+@code {
+    RoleplayPlayer Player => Game.LocalClient.Pawn as RoleplayPlayer;
+
+    public RespawnHud()
+    {
+        Game.RootPanel = this;
+    }
+
+    public override async void OnDeleted()
+    {
+        base.OnDeleted();
+
+        _ = new MainHud();
+        RoleplayAPI.Respawn();
+    }
+
+    public override void Tick()
+    {
+        base.Tick();
+
+        if (Player.TimeUntilRespawn)
+            Delete();
+    }
+
+
+    protected override int BuildHash()
+    {
+        return HashCode.Combine(Player.TimeUntilRespawn.Relative);
+    }
+}

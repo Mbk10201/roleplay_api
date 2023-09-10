@@ -1,0 +1,70 @@
+@inherits RootPanel
+@attribute [StyleSheet]
+@namespace Mbk.RoleplayAPI.UI.RootPanels
+@using Mbk.RoleplayAPI.Player;
+
+<root>
+    <svg class="logo" src="ui/images/eurocommunity.svg"/>
+    <div class="title">
+        <span>Welcome, </span>
+        <span style="color:dodgerblue;font-size:55px;">@Game.LocalClient.Name</span>
+    </div>
+    <div class="actions">
+        <button class="play" onclick=@Play>
+            <div class="icon">
+                <iconify name="iconoir:playstation-gamepad"></iconify>
+            </div>
+            <div class="name">
+                Play
+            </div>
+        </button>
+
+        <button class="leave" onclick=@Leave>
+            <div class="icon">
+                <iconify name="fluent:plug-disconnected-20-regular"></iconify>
+            </div>
+            <div class="name">
+                Leave
+            </div>
+        </button>
+    </div>
+
+    <div class="socials">
+        <div class="social">
+            <iconify name="logos:discord-icon"></iconify>
+        </div>
+        <div class="social">
+            <iconify name="mdi:steam"></iconify>
+        </div>
+    </div>
+
+    <div class="copyright">
+        <span style="">sbox-marketplace.com</span>
+    </div>
+</root>
+
+@code {
+    RoleplayPlayer Player => Game.LocalClient.Pawn as RoleplayPlayer;
+
+    void Play()
+    {
+        Delete(false);
+    }
+
+    public override void OnDeleted()
+    {
+        base.OnDeleted();
+
+        RoleplayAPI.InitializeRespawn();
+    }
+
+    void Leave()
+    {
+        Game.LocalClient.Kick();
+    }
+
+    protected override int BuildHash()
+    {
+        return HashCode.Combine(DateTime.Now);
+    }
+}

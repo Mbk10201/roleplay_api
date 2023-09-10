@@ -1,0 +1,140 @@
+WelcomeHud {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(25, 25, 25, 0.8);
+    opacity: 1;
+    transition: all 2s ease-out;
+    transform: scale( 1 );
+    padding: 250px;
+    color: white;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-family: Poppins;
+    pointer-events: all;
+
+    .logo {
+        position: absolute;
+        left: 250px;
+        height: 300px;
+        width: 300px;
+        transition: all 2s ease-out;
+    }
+
+    .title {
+        gap: 10px;
+        font-weight: 700;
+        font-size: 50px;
+        align-items: center;
+    }
+
+    .actions {
+        margin-top: 50px;
+        height: 100%;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        gap: 25px;
+        flex-direction: column;
+
+        button {
+            width: 35%;
+            transition: all 0.5s ease-out;
+            gap: 15px;
+
+            .icon {
+                height: 60px;
+                width: 10%;
+                justify-content: center;
+                align-items: center;
+                padding: 5px;
+                border-radius: 5px;
+                background-color: rgba(25, 25, 25, 0.8);
+                transition: all 0.5s ease-out;
+                border: 0.1px solid rgba(75, 75, 75, 0.25);
+
+                iconify {
+                    height: 20px;
+                    width: 20px;
+                }
+            }
+
+            .name {
+                height: 60px;
+                width: 80%;
+                padding: 10px;
+                justify-content: center;
+                align-items: center;
+                border-radius: 8px;
+                cursor: pointer;
+                background-color: rgba(25, 25, 25, 0.8);
+                transition: all 0.5s ease-out;
+                border: 0.1px solid rgba(75, 75, 75, 0.25);
+                box-shadow: 0 2px 40px rgba(0,0,0,0.3);
+            }
+
+            &:hover {
+
+                &.play {
+                    .name {
+                        background-color: rgba(#39ffa0, 0.1);
+                    }
+                }
+
+                &.leave {
+                    .name {
+                        background-color: rgba(#5b64e9, 0.1);
+                    }
+                }
+            }
+        }
+    }
+
+    .socials {
+        gap: 10px;
+
+        .social {
+            height: 64px;
+            width: 64px;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.5s ease-in;
+
+            iconify {
+                height: 64px;
+                width: 64px;
+            }
+
+            &:hover {
+                background-color: rgba(#5b64e9, 0.1);
+            }
+        }
+    }
+
+    .copyright {
+        position: absolute;
+        bottom: 30px;
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 20px;
+    }
+
+    &:intro {
+        opacity: 0;
+        padding: 0px;
+
+        .logo {
+            left: 0px;
+        }
+    }
+
+    &:outro {
+        opacity: 0;
+        padding: 0px;
+
+        .logo {
+            left: 0px;
+        }
+    }
+}

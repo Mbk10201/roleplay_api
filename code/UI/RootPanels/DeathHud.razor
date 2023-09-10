@@ -1,0 +1,36 @@
+@inherits RootPanel
+@attribute [StyleSheet]
+@namespace Mbk.RoleplayAPI.UI.RootPanels
+@using Mbk.RoleplayAPI.Player;
+
+<root>
+    <div class="title">
+        <span>You are</span>
+        <span style="color:red">Dead</span>
+    </div>
+</root>
+
+@code {
+    RoleplayPlayer Player => Game.LocalClient.Pawn as RoleplayPlayer;
+
+    public DeathHud()
+    {
+        Game.RootPanel?.Delete();
+        Game.RootPanel = this;
+    }
+
+    public override async void OnDeleted()
+    {
+        base.OnDeleted();
+
+        _ = new MainHud();
+    }
+
+    public override void Tick()
+    {
+        base.Tick();
+
+        if (Input.Pressed("Use"))
+            RoleplayAPI.Respawn();
+    }
+}
